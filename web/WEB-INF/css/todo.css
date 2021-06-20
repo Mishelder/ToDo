@@ -1,0 +1,43 @@
+div.to_do_day {
+    float: left;
+    width: 20%;
+    height: auto;
+}
+
+div.to_do_list {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.taskLi > .input[type=text]{
+    padding-bottom: 2px;
+    align-content: center;
+}
+
+.taskLi {
+    list-style-type: none;
+}
+
+.change_list{
+    display:flex;
+    margin:auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.change_list > form > input{
+    background: linear-gradient(to bottom, #f34, #725);
+    border-radius: 10%;
+    height: 40px;
+    width:60px
+}
+
+.change_right{
+    margin-left:10px;
+}
+
+.change_left{
+    margin-right:10px;
+}
