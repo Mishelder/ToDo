@@ -33,20 +33,10 @@ public class SaveTaskService {
         taskDao.deleteTaskByDate(tasksDto.get(0).getDate().toLocalDate());
         if(!tasks.isEmpty())
         taskDao.createTasks(tasks);
-        return tasks.isEmpty() ? emptyTasks() : fetchTasksSaveTasksMapper.map(tasksDto);
+        return tasks.isEmpty() ? null : fetchTasksSaveTasksMapper.map(tasksDto);
     }
 
-    private List<FetchTaskDto> emptyTasks(){
-        List<FetchTaskDto> tasks = new ArrayList<>();
-        for(int i = 0;i<15;i++){
-            tasks.add(FetchTaskDto.builder()
-                    .indexInForm(-1)
-                    .taskName("")
-                    .done("")
-                    .build());
-        }
-        return tasks;
-    }
+
 
     public static SaveTaskService getInstance(){
         return INSTANCE;
