@@ -19,15 +19,9 @@ public class FetchTasksSaveTasksMapper implements Mapper<List<SaveTaskDto>,List<
         var tasks = object.stream()
                 .filter(saveDto -> !saveDto.getTask().isEmpty())
                 .collect(Collectors.toList());
-        List<FetchTaskDto> listOfTasks = new ArrayList<>(15);
-        for(int i=0;i<15;i++)
-            listOfTasks.add(FetchTaskDto.builder()
-                    .taskName("")
-                    .indexInForm(-1)
-                    .done("")
-                    .build());
+        List<FetchTaskDto> listOfTasks = new ArrayList<>();
         for(SaveTaskDto std : tasks)
-            listOfTasks.set(Integer.parseInt(std.getIndexInForm()),FetchTaskDto.builder()
+            listOfTasks.add(FetchTaskDto.builder()
                     .done(std.getDoneTask()!=null?"checked":"")
                     .taskName(std.getTask())
                     .indexInForm(Integer.parseInt(std.getIndexInForm()))
