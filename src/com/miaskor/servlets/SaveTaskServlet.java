@@ -30,6 +30,7 @@ public class SaveTaskServlet extends HttpServlet {
         var day = Integer.parseInt(req.getParameter("day"));
         var pointer_time =(ZonedDateTime)req.getSession().getAttribute("pointer_time");
         var actualDate = pointer_time.plusDays(day);
+        var keyActualDate = actualDate.toLocalDate().toString();
         var client = (Client)req.getSession().getAttribute("client");
         var clientId = client.getId();
         List<SaveTaskDto> saveTaskDtos = new ArrayList<>(15);
@@ -45,7 +46,11 @@ public class SaveTaskServlet extends HttpServlet {
         try {
             var tasks = saveTaskService.saveTask(saveTaskDtos);
             var userTasks = (Map<String, List<FetchTaskDto>>)req.getSession().getAttribute("tasks");
-            userTasks.put(actualDate.toLocalDate().toString(),tasks);
+            if(tasks == null && userTasks.containsKey(keyActualDate)){
+                userTasks.remove(keyActualDate);
+            }else if(tasks != null){
+                userTasks.put(keyActualDate, tasks);
+            }
             req.getSession().setAttribute("tasks",userTasks);
             resp.sendRedirect(ControllersURIKeys.TODO);
         }catch (ValidationException e){
