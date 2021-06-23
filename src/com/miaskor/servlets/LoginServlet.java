@@ -54,6 +54,7 @@ public class LoginServlet extends HttpServlet {
                     fetchTasksService.getTasks(now.toLocalDate(), end_time.toLocalDate(),client.getId());
             req.getSession().setAttribute("tasks",tasks);
             req.getSession().setAttribute("start_time", now);
+            req.getSession().setAttribute("end_time", end_time);
             req.getSession().setAttribute("pointer_time", now);
             resp.sendRedirect(ControllersURIKeys.TODO);
         }catch (ValidationException e){
