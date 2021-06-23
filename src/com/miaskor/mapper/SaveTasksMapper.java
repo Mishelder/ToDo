@@ -18,7 +18,7 @@ public class SaveTasksMapper implements Mapper<List<SaveTaskDto>, List<Task>> {
         var tasks = saveTaskDtoList.stream()
                 .filter(saveDto -> !saveDto.getTask().isEmpty())
                 .collect(Collectors.toList());
-        List<Task> listOfTasks = new ArrayList<>(15);
+        List<Task> listOfTasks = new ArrayList<>();
         for(SaveTaskDto std : tasks){
             listOfTasks.add(Task.builder()
                     .taskName(std.getTask())
