@@ -1,5 +1,6 @@
 package com.miaskor.dao;
 
+import com.miaskor.cache.TasksCacheLRU;
 import com.miaskor.database.ConnectionManager;
 import com.miaskor.entity.Task;
 import lombok.AccessLevel;
@@ -116,16 +117,13 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @SneakyThrows
     public List<Task> readByDate(LocalDate day,Integer clientIndex) {
         List<Task> tasks = new ArrayList<>();
-        for(int i=0;i<15;i++){
-            tasks.add(Task.builder().taskName("").done(false).indexInForm(-1).build());
-        }
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_TASK_BY_DATE)) {
             preparedStatement.setDate(1, Date.valueOf(day));
             preparedStatement.setInt(2, clientIndex);
             var resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                tasks.set(resultSet.getObject(6,Integer.class),buildTask(resultSet));
+                tasks.add(buildTask(resultSet));
             }
         }
         return tasks;
@@ -135,8 +133,11 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @SneakyThrows
     public Map<LocalDate, List<Task>> readAllTaskByPeriod(LocalDate from, LocalDate to,Integer clientIndex) {
         Map<LocalDate, List<Task>> tasks = new HashMap<>();
+        to = to.plusDays(1);
         while (!from.equals(to)) {
-            tasks.put(from, readByDate(from,clientIndex));
+            var tasksByDay = readByDate(from, clientIndex);
+            if(!tasksByDay.isEmpty())
+                tasks.put(from, tasksByDay);
             from = from.plusDays(1);
         }
         return tasks;
