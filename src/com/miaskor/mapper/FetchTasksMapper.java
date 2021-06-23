@@ -24,7 +24,7 @@ public class FetchTasksMapper implements Mapper<Map<LocalDate, List<Task>>,Map<S
         return tasksCacheLRU.getMap();
     }
 
-    public List<FetchTaskDto> mapListTasks(List<Task> from) {
+    protected List<FetchTaskDto> mapListTasks(List<Task> from) {
         return from.stream()
                 .map(task ->
                         FetchTaskDto.builder()
