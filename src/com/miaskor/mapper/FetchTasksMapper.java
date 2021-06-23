@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FetchTasksMapper implements Mapper<Map<LocalDate, List<Task>>,Map<String, List<FetchTaskDto>>> {
     private static final FetchTasksMapper INSTANCE = new FetchTasksMapper();
-    private final TasksCacheLRU tasksCacheLRU = TasksCacheLRU.getInstance();
 
     @Override
     public Map<String, List<FetchTaskDto>> map(Map<LocalDate, List<Task>> from) {
+        TasksCacheLRU tasksCacheLRU = new TasksCacheLRU();
         for(Map.Entry<LocalDate,List<Task>> e :from.entrySet()){
             tasksCacheLRU.put(e.getKey().toString(),mapListTasks(e.getValue()));
         }
