@@ -24,19 +24,31 @@ public class FlipServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var pointer_time = (ZonedDateTime) req.getSession().getAttribute("pointer_time");
-        var client =(Client) req.getSession().getAttribute("client");
-        var tasks = (Map<String, List<FetchTaskDto>>) req.getSession().getAttribute("tasks");
+        var end_time = (ZonedDateTime) req.getSession().getAttribute("end_time");
+
         if(req.getRequestURI().contains("right")) {
+            end_time = end_time.plusDays(1);
             pointer_time = pointer_time.plusDays(1);
+            addTasks(end_time,req);
         }
         else {
             pointer_time = pointer_time.minusDays(1);
+            end_time = end_time.minusDays(1);
+            addTasks(pointer_time,req);
         }
-        var task = getTaskService
-                .getTask(pointer_time.toLocalDate(), client.getId());
-        tasks.put(pointer_time.toLocalDate().toString(),task);
-        req.getSession().setAttribute("tasks",tasks);
         req.getSession().setAttribute("pointer_time",pointer_time);
-        req.getRequestDispatcher(ControllersURIKeys.TODO).forward(req,resp);
+        req.getSession().setAttribute("end_time",end_time);
+        resp.sendRedirect(ControllersURIKeys.TODO);
+    }
+
+    private void addTasks(ZonedDateTime getTime, HttpServletRequest req){
+        var client =(Client) req.getSession().getAttribute("client");
+        List<FetchTaskDto> task = getTaskService
+                .getTask(getTime.toLocalDate(), client.getId());
+        if(!task.isEmpty()) {
+            var tasks = (Map<String, List<FetchTaskDto>>) req.getSession().getAttribute("tasks");
+            tasks.put(getTime.toLocalDate().toString(), task);
+            req.getSession().setAttribute("tasks", tasks);
+        }
     }
 }
