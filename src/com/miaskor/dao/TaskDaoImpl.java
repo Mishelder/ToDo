@@ -40,9 +40,9 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             DELETE FROM to_do_list_repository.public.task
             WHERE id=?
             """;
-    private static final String DELETE_TASK_BY_DATE = """
+    private static final String DELETE_TASK_BY_DATE_AND_CLIENT_ID = """
             DELETE FROM to_do_list_repository.public.task
-            WHERE date=?
+            WHERE date=? AND client_id=?
             """;
     private static final String READ_ALL_TASK = """
             SELECT id, client_id, task_name, done, date, index_in_form
@@ -160,10 +160,11 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
 
     @Override
     @SneakyThrows
-    public void deleteTaskByDate(LocalDate day) {
+    public void deleteTaskByDateAndClientId(LocalDate day,Integer clientId) {
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(DELETE_TASK_BY_DATE)) {
+             var preparedStatement = connection.prepareStatement(DELETE_TASK_BY_DATE_AND_CLIENT_ID)) {
             preparedStatement.setDate(1, Date.valueOf(day));
+            preparedStatement.setInt(2,clientId);
             preparedStatement.execute();
         }
     }

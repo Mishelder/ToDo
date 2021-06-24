@@ -3,14 +3,14 @@ package com.miaskor.dto;
 import lombok.Builder;
 import lombok.Value;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 @Value
 @Builder
 public class SaveTaskDto {
     String task;
     String doneTask;
-    ZonedDateTime date;
+    LocalDate date;
     Integer clientId;
     String indexInForm;
 }
