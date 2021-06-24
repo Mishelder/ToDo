@@ -12,7 +12,7 @@ import com.miaskor.validator.ValidationResult;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @NoArgsConstructor(access= AccessLevel.PRIVATE)
@@ -30,7 +30,7 @@ public class SaveTaskService {
             throw new ValidationException(validationResult.getErrorMessages());
         }
         List<Task> tasks = mapper.map(tasksDto);
-        taskDao.deleteTaskByDate(tasksDto.get(0).getDate().toLocalDate());
+        taskDao.deleteTaskByDate(tasksDto.get(0).getDate());
         if(!tasks.isEmpty())
         taskDao.createTasks(tasks);
         return tasks.isEmpty() ? null : fetchTasksSaveTasksMapper.map(tasksDto);

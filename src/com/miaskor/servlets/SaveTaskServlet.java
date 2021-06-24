@@ -38,8 +38,8 @@ public class SaveTaskServlet extends HttpServlet {
             var taskParameter = req.getParameter("task_%d".formatted(index));
             saveTaskDtos.add(SaveTaskDto.builder()
                     .clientId(clientId)
-                    .date(actualDate)
                     .task(taskParameter)
+                    .date(actualDate.toLocalDate())
                     .doneTask(req.getParameter("task_box_%d".formatted(index)))
                     .indexInForm("%d".formatted(index)).build());
         }
