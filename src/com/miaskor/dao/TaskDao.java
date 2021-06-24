@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface TaskDao<K,T> extends Dao<K,T> {
     void createTasks(List<T> object);
-    void deleteTaskByDate(LocalDate day);
+    void deleteTaskByDateAndClientId(LocalDate day,Integer clientId);
     Map<LocalDate,List<T>> readAllTaskByPeriod(LocalDate from,LocalDate to,Integer clientIndex);
     List<T> readByDate(LocalDate day,Integer clientIndex);
 }
