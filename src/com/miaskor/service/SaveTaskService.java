@@ -30,7 +30,8 @@ public class SaveTaskService {
             throw new ValidationException(validationResult.getErrorMessages());
         }
         List<Task> tasks = mapper.map(tasksDto);
-        taskDao.deleteTaskByDate(tasksDto.get(0).getDate());
+        var firstElementTasksDto = tasksDto.get(0);
+        taskDao.deleteTaskByDateAndClientId(firstElementTasksDto.getDate(), firstElementTasksDto.getClientId());
         if(!tasks.isEmpty())
         taskDao.createTasks(tasks);
         return tasks.isEmpty() ? null : fetchTasksSaveTasksMapper.map(tasksDto);
