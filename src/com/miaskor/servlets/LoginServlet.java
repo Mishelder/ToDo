@@ -1,10 +1,8 @@
 package com.miaskor.servlets;
 
-import com.miaskor.dto.FetchTaskDto;
 import com.miaskor.dto.LoginClientDto;
-import com.miaskor.entity.Client;
 import com.miaskor.exception.ValidationException;
-import com.miaskor.service.FetchTasksService;
+import com.miaskor.service.FetchTaskService;
 import com.miaskor.service.LoginClientService;
 import com.miaskor.util.ControllersURIKeys;
 import com.miaskor.util.WebFilePath;
@@ -18,14 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Map;
 
 @WebServlet(ControllersURIKeys.LOGIN)
 public class LoginServlet extends HttpServlet {
 
     private final LoginClientService clientService = LoginClientService.getInstance();
-    private final FetchTasksService fetchTasksService = FetchTasksService.getInstance();
+    private final FetchTaskService fetchTaskService = FetchTaskService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             var now = ZonedDateTime.now();
             var end_time = now.plusDays(4);
             var tasks =
-                    fetchTasksService.getTasks(now.toLocalDate(), end_time.toLocalDate(),client.getId());
+                    fetchTaskService.getTasks(now.toLocalDate(), end_time.toLocalDate(),client.getId());
             req.getSession().setAttribute("tasks",tasks);
             req.getSession().setAttribute("start_time", now);
             req.getSession().setAttribute("end_time", end_time);
