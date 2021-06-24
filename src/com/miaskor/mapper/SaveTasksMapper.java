@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SaveTasksMapper implements Mapper<List<SaveTaskDto>, List<Task>> {
@@ -15,11 +14,8 @@ public class SaveTasksMapper implements Mapper<List<SaveTaskDto>, List<Task>> {
 
     @Override
     public List<Task> map(List<SaveTaskDto> saveTaskDtoList) {
-        var tasks = saveTaskDtoList.stream()
-                .filter(saveDto -> !saveDto.getTask().isEmpty())
-                .collect(Collectors.toList());
         List<Task> listOfTasks = new ArrayList<>();
-        for(SaveTaskDto std : tasks){
+        for(SaveTaskDto std : saveTaskDtoList){
             listOfTasks.add(Task.builder()
                     .taskName(std.getTask())
                     .clientId(std.getClientId())

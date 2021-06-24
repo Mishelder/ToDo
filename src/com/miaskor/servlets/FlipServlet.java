@@ -2,9 +2,8 @@ package com.miaskor.servlets;
 
 import com.miaskor.dto.FetchTaskDto;
 import com.miaskor.entity.Client;
-import com.miaskor.service.GetTaskService;
+import com.miaskor.service.FetchTaskService;
 import com.miaskor.util.ControllersURIKeys;
-import com.miaskor.util.WebFilePath;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +18,7 @@ import java.util.Map;
 @WebServlet(urlPatterns = {ControllersURIKeys.FLIP_RIGHT,ControllersURIKeys.FLIP_LEFT})
 public class FlipServlet extends HttpServlet {
 
-    private final GetTaskService getTaskService = GetTaskService.getInstance();
+    private final FetchTaskService fetchTaskService = FetchTaskService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,7 +42,7 @@ public class FlipServlet extends HttpServlet {
 
     private void addTasks(ZonedDateTime getTime, HttpServletRequest req){
         var client =(Client) req.getSession().getAttribute("client");
-        List<FetchTaskDto> task = getTaskService
+        List<FetchTaskDto> task = fetchTaskService
                 .getTask(getTime.toLocalDate(), client.getId());
         if(!task.isEmpty()) {
             var tasks = (Map<String, List<FetchTaskDto>>) req.getSession().getAttribute("tasks");

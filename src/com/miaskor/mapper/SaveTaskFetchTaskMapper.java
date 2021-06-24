@@ -2,25 +2,20 @@ package com.miaskor.mapper;
 
 import com.miaskor.dto.FetchTaskDto;
 import com.miaskor.dto.SaveTaskDto;
-import com.miaskor.entity.Task;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class FetchTasksSaveTasksMapper implements Mapper<List<SaveTaskDto>,List<FetchTaskDto>> {
-    private static final FetchTasksSaveTasksMapper INSTANCE = new FetchTasksSaveTasksMapper();
+public class SaveTaskFetchTaskMapper implements Mapper<List<SaveTaskDto>,List<FetchTaskDto>> {
+    private static final SaveTaskFetchTaskMapper INSTANCE = new SaveTaskFetchTaskMapper();
 
     @Override
-    public List<FetchTaskDto> map(List<SaveTaskDto> object) {
-        var tasks = object.stream()
-                .filter(saveDto -> !saveDto.getTask().isEmpty())
-                .collect(Collectors.toList());
+    public List<FetchTaskDto> map(List<SaveTaskDto> saveTaskDtos) {
         List<FetchTaskDto> listOfTasks = new ArrayList<>();
-        for(SaveTaskDto std : tasks)
+        for(SaveTaskDto std : saveTaskDtos)
             listOfTasks.add(FetchTaskDto.builder()
                     .done(std.getDoneTask()!=null?"checked":"")
                     .taskName(std.getTask())
@@ -29,7 +24,7 @@ public class FetchTasksSaveTasksMapper implements Mapper<List<SaveTaskDto>,List<
         return listOfTasks;
     }
 
-    public static FetchTasksSaveTasksMapper getInstance(){
+    public static SaveTaskFetchTaskMapper getInstance(){
         return INSTANCE;
     }
 }

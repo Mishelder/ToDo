@@ -5,14 +5,14 @@ import com.miaskor.dto.FetchTaskDto;
 import com.miaskor.dto.SaveTaskDto;
 import com.miaskor.entity.Task;
 import com.miaskor.exception.ValidationException;
-import com.miaskor.mapper.FetchTasksSaveTasksMapper;
+import com.miaskor.mapper.SaveTaskFetchTaskMapper;
 import com.miaskor.mapper.SaveTasksMapper;
 import com.miaskor.validator.SaveTaskValidator;
 import com.miaskor.validator.ValidationResult;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor(access= AccessLevel.PRIVATE)
@@ -22,19 +22,19 @@ public class SaveTaskService {
     private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
     private final SaveTaskValidator validator = SaveTaskValidator.getInstance();
     private final SaveTasksMapper mapper = SaveTasksMapper.getInstance();
-    private final FetchTasksSaveTasksMapper fetchTasksSaveTasksMapper = FetchTasksSaveTasksMapper.getInstance();
+    private final SaveTaskFetchTaskMapper saveTaskFetchTaskMapper = SaveTaskFetchTaskMapper.getInstance();
+    private final DeleteTaskService deleteTaskService = DeleteTaskService.getInstance();
 
-    public List<FetchTaskDto> saveTask(List<SaveTaskDto> tasksDto){
+    public List<FetchTaskDto> saveTask(List<SaveTaskDto> tasksDto,Integer clientId,LocalDate date){
         ValidationResult validationResult = validator.isValid(tasksDto);
         if(!validationResult.isValid()){
             throw new ValidationException(validationResult.getErrorMessages());
         }
         List<Task> tasks = mapper.map(tasksDto);
-        var firstElementTasksDto = tasksDto.get(0);
-        taskDao.deleteTaskByDateAndClientId(firstElementTasksDto.getDate(), firstElementTasksDto.getClientId());
+        deleteTaskService.deleteTasksByDayAndClientId(clientId, date);
         if(!tasks.isEmpty())
         taskDao.createTasks(tasks);
-        return tasks.isEmpty() ? null : fetchTasksSaveTasksMapper.map(tasksDto);
+        return tasks.isEmpty() ? null : saveTaskFetchTaskMapper.map(tasksDto);
     }
 
 
