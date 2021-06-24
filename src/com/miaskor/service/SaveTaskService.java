@@ -12,6 +12,7 @@ import com.miaskor.validator.ValidationResult;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -23,15 +24,15 @@ public class SaveTaskService {
     private final SaveTaskValidator validator = SaveTaskValidator.getInstance();
     private final SaveTasksMapper mapper = SaveTasksMapper.getInstance();
     private final FetchTasksSaveTasksMapper fetchTasksSaveTasksMapper = FetchTasksSaveTasksMapper.getInstance();
+    private final DeleteTaskService deleteTaskService = DeleteTaskService.getInstance();
 
-    public List<FetchTaskDto> saveTask(List<SaveTaskDto> tasksDto){
+    public List<FetchTaskDto> saveTask(List<SaveTaskDto> tasksDto,Integer clientId,LocalDate date){
         ValidationResult validationResult = validator.isValid(tasksDto);
         if(!validationResult.isValid()){
             throw new ValidationException(validationResult.getErrorMessages());
         }
         List<Task> tasks = mapper.map(tasksDto);
-        var firstElementTasksDto = tasksDto.get(0);
-        taskDao.deleteTaskByDateAndClientId(firstElementTasksDto.getDate(), firstElementTasksDto.getClientId());
+        deleteTaskService.deleteTasksByDayAndClientId(clientId, date);
         if(!tasks.isEmpty())
         taskDao.createTasks(tasks);
         return tasks.isEmpty() ? null : fetchTasksSaveTasksMapper.map(tasksDto);
