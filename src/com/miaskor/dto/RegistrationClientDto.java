@@ -1,10 +1,13 @@
 package com.miaskor.dto;
 
-import lombok.Builder;
-import lombok.Value;
 
-@Value
+import lombok.*;
+
+
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegistrationClientDto {
     String login;
     String email;
