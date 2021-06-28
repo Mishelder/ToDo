@@ -2,9 +2,12 @@ package com.miaskor.servlets;
 
 import com.miaskor.dto.LoginClientDto;
 import com.miaskor.exception.ValidationException;
+import com.miaskor.mapper.ErrorMessagesToJsonMapper;
+import com.miaskor.mapper.json.JsonToLoginClientDto;
 import com.miaskor.service.FetchTaskService;
 import com.miaskor.service.LoginClientService;
 import com.miaskor.util.ControllersURIKeys;
+import com.miaskor.util.JsonUtil;
 import com.miaskor.util.WebFilePath;
 
 import javax.servlet.ServletException;
@@ -22,6 +25,10 @@ public class LoginServlet extends HttpServlet {
 
     private final LoginClientService clientService = LoginClientService.getInstance();
     private final FetchTaskService fetchTaskService = FetchTaskService.getInstance();
+    private final ErrorMessagesToJsonMapper errorMessagesToJsonMapper =
+            ErrorMessagesToJsonMapper.getInstance();
+    private final JsonToLoginClientDto jsonToLoginClientDto =
+            JsonToLoginClientDto.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,12 +40,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var login = req.getParameter("login");
-        var password = req.getParameter("password");
-        var loginClientDto = LoginClientDto.builder()
-                .login(login)
-                .password(password)
-                .build();
+        String body = JsonUtil.parseBody(req);
+        var loginClientDto = jsonToLoginClientDto.map(body);
         try{
             var client = clientService.loginClient(loginClientDto);
             Cookie cookie = new Cookie("loggedIn","true");
@@ -54,8 +57,8 @@ public class LoginServlet extends HttpServlet {
             req.getSession().setAttribute("pointer_time", now);
             resp.sendRedirect(ControllersURIKeys.TODO);
         }catch (ValidationException e){
-            req.setAttribute("error",e.getErrorMessages());
-            doGet(req,resp);
+            String errors = errorMessagesToJsonMapper.map(e.getErrorMessages());
+            resp.getWriter().write(errors);
         }
     }
 }
