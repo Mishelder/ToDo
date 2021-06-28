@@ -3,7 +3,9 @@
 3. encoding problem with russian task ---> (Done)
 4. problem with redirection strange request example (/login/123 || /MishaIsTheBest to /login) --> (Done)
 5. if you use two accounts, one of them rewrite information another of them and client id is change in Database ---> (Done)
-
+6. when use foreach to set classes to input, commas is setting between them -->
+ (Done: When constructor retrieve ...style and set it to variable this.style,
+ this.style store [[]] so i take the first element of this array)
 
 Maybe problems but i don't know
 1. call doPost method in
