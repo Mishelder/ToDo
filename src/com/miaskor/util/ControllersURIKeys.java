@@ -2,6 +2,8 @@ package com.miaskor.util;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.Set;
+
 @UtilityClass
 public class ControllersURIKeys {
     public static final String LOGIN = "/login";
@@ -12,4 +14,14 @@ public class ControllersURIKeys {
     public static final String FLIP_RIGHT = "/flip/right";
     public static final String FLIP_LEFT = "/flip/left";
     public static final String TODO = "/todo";
+    public static final String FETCH = "/fetch";
+
+    public static Set<String> getAllFeasibleURL() {
+        return Set.of(LOGIN, REGISTRATION, CSS_LOADER, SAVE_TASK,
+                LOGOUT, FLIP_RIGHT, FLIP_LEFT, TODO, FETCH);
+    }
+
+    public static Set<String> getAllPublicURL() {
+        return Set.of(LOGIN, REGISTRATION, CSS_LOADER);
+    }
 }
