@@ -114,10 +114,12 @@ function changeActiveStatusClass(listActive, listNonActive) {
 function changeActiveHeader() {
     headerSingIn.addEventListener('click', () => {
         changeActiveStatus(headerSignUp, headerSingIn);
+        form.reset();
     });
 
     headerSignUp.addEventListener('click', () => {
         changeActiveStatus(headerSingIn, headerSignUp);
+        form.reset();
     });
 
     function changeActiveStatus(activeElement, nonActiveElement) {
