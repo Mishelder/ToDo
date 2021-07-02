@@ -1,6 +1,5 @@
 package com.miaskor.mapper.json;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miaskor.dto.LoginClientDto;
 import com.miaskor.mapper.Mapper;
@@ -9,8 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class JsonToLoginClientDto implements Mapper<String, LoginClientDto> {
-    private static final JsonToLoginClientDto INSTANCE = new JsonToLoginClientDto();
+public class JsonToLoginClientDtoMapper implements Mapper<String, LoginClientDto> {
+    private static final JsonToLoginClientDtoMapper INSTANCE = new JsonToLoginClientDtoMapper();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -19,7 +18,7 @@ public class JsonToLoginClientDto implements Mapper<String, LoginClientDto> {
         return objectMapper.readValue(object, LoginClientDto.class);
     }
 
-    public static JsonToLoginClientDto getInstance() {
+    public static JsonToLoginClientDtoMapper getInstance() {
         return INSTANCE;
     }
 }
