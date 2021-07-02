@@ -15,11 +15,12 @@
         <form id ="form" action="${pageContext.request.contextPath}/login" method="post">
         </form>
         <div id="formFooter">
-            <a class="underlineHover" href="#">Forgot Password?</a>
+            <a class="underlineHover fadeIn fourth" href="#">Forgot Password?</a>
         </div>
     </div>
 </div>
 <%@ include file="footer.jsp"%>
+<noscript>You need to enable JavaScript to run this app.</noscript>
 <script src="${pageContext.request.contextPath}/css?fileName=registration_login&extension=js&folder=js"></script>
 </body>
 </html>
