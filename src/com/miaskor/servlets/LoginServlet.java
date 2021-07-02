@@ -1,9 +1,9 @@
 package com.miaskor.servlets;
 
-import com.miaskor.dto.LoginClientDto;
 import com.miaskor.exception.ValidationException;
-import com.miaskor.mapper.ErrorMessagesToJsonMapper;
-import com.miaskor.mapper.json.JsonToLoginClientDto;
+import com.miaskor.mapper.json.ErrorMessagesToJsonMapper;
+import com.miaskor.mapper.json.JsonToLoginClientDtoMapper;
+import com.miaskor.mapper.json.MapTasksToJsonMapper;
 import com.miaskor.service.FetchTaskService;
 import com.miaskor.service.LoginClientService;
 import com.miaskor.util.ControllersURIKeys;
@@ -27,36 +27,39 @@ public class LoginServlet extends HttpServlet {
     private final FetchTaskService fetchTaskService = FetchTaskService.getInstance();
     private final ErrorMessagesToJsonMapper errorMessagesToJsonMapper =
             ErrorMessagesToJsonMapper.getInstance();
-    private final JsonToLoginClientDto jsonToLoginClientDto =
-            JsonToLoginClientDto.getInstance();
+    private final JsonToLoginClientDtoMapper jsonToLoginClientDtoMapper =
+            JsonToLoginClientDtoMapper.getInstance();
+    private final MapTasksToJsonMapper mapTasksToJsonMapper =
+            MapTasksToJsonMapper.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        req.getRequestDispatcher(WebFilePath.getPath("login","jsp","jsp"))
-        .forward(req,resp);
+        req.getRequestDispatcher(WebFilePath.getPath("login", "jsp", "jsp"))
+                .forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String body = JsonUtil.parseBody(req);
-        var loginClientDto = jsonToLoginClientDto.map(body);
-        try{
+        var loginClientDto = jsonToLoginClientDtoMapper.map(body);
+        try {
             var client = clientService.loginClient(loginClientDto);
-            Cookie cookie = new Cookie("loggedIn","true");
+            Cookie cookie = new Cookie("loggedIn", "true");
             resp.addCookie(cookie);
-            req.getSession().setAttribute("client",client);
+            req.getSession().setAttribute("client", client);
             var now = ZonedDateTime.now();
             var end_time = now.plusDays(4);
-            var tasks =
-                    fetchTaskService.getTasks(now.toLocalDate(), end_time.toLocalDate(),client.getId());
-            req.getSession().setAttribute("tasks",tasks);
+            var tasks = mapTasksToJsonMapper
+                    .map(fetchTaskService
+                            .getTasks(now.toLocalDate(), end_time.toLocalDate(), client.getId()));
+            req.getSession().setAttribute("tasks", tasks);
             req.getSession().setAttribute("start_time", now);
             req.getSession().setAttribute("end_time", end_time);
             req.getSession().setAttribute("pointer_time", now);
             resp.sendRedirect(ControllersURIKeys.TODO);
-        }catch (ValidationException e){
+        } catch (ValidationException e) {
             String errors = errorMessagesToJsonMapper.map(e.getErrorMessages());
             resp.getWriter().write(errors);
         }
