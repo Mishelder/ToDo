@@ -1,8 +1,7 @@
 package com.miaskor.servlets;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miaskor.exception.ValidationException;
-import com.miaskor.mapper.ErrorMessagesToJsonMapper;
+import com.miaskor.mapper.json.ErrorMessagesToJsonMapper;
 import com.miaskor.mapper.json.JsonToRegistrationClientDtoMapper;
 import com.miaskor.service.RegistrationClientService;
 import com.miaskor.util.ControllersURIKeys;
