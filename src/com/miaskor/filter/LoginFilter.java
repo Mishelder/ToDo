@@ -20,21 +20,8 @@ import java.util.Set;
 @WebFilter("*")
 public class LoginFilter extends HttpFilter {
 
-    private static final Set<String> PUBLIC_PAGES = Set.of(
-            ControllersURIKeys.LOGIN,
-            ControllersURIKeys.REGISTRATION,
-            ControllersURIKeys.CSS_LOADER);
-
-    private static final Set<String> ALL_FEASIBLE_PAGES = Set.of(
-            ControllersURIKeys.LOGIN,
-            ControllersURIKeys.REGISTRATION,
-            ControllersURIKeys.CSS_LOADER,
-            ControllersURIKeys.SAVE_TASK,
-            ControllersURIKeys.FLIP_LEFT,
-            ControllersURIKeys.FLIP_RIGHT,
-            ControllersURIKeys.TODO,
-            ControllersURIKeys.LOGOUT
-    );
+    private static final Set<String> PUBLIC_PAGES = ControllersURIKeys.getAllPublicURL();
+    private static final Set<String> ALL_FEASIBLE_PAGES = ControllersURIKeys.getAllFeasibleURL();
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
