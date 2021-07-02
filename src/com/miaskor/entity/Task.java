@@ -13,5 +13,4 @@ public class Task {
     private String taskName;
     private Boolean done;
     private LocalDate date;
-    private Integer indexInForm;
 }

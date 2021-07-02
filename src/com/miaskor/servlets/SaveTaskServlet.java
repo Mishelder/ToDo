@@ -41,7 +41,7 @@ public class SaveTaskServlet extends HttpServlet {
                         .task(taskParameter)
                         .date(actualDate.toLocalDate())
                         .doneTask(req.getParameter("task_box_%d".formatted(index)))
-                        .indexInForm("%d".formatted(index)).build());
+                        .build());
             }
         }
         try {

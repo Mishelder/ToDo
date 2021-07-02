@@ -21,7 +21,6 @@ public class SaveTasksMapper implements Mapper<List<SaveTaskDto>, List<Task>> {
                     .clientId(std.getClientId())
                     .done(std.getDoneTask() != null)
                     .date(std.getDate())
-                    .indexInForm(Integer.parseInt(std.getIndexInForm()))
                     .build());
         }
         return listOfTasks;

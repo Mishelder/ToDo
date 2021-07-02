@@ -12,5 +12,4 @@ public class SaveTaskDto {
     String doneTask;
     LocalDate date;
     Integer clientId;
-    String indexInForm;
 }

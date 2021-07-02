@@ -19,21 +19,21 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
 
     private static final String CREATE_TASK = """
             INSERT INTO to_do_list_repository.public.task
-            (client_id, task_name, done, date,index_in_form) VALUES (?,?,?,?,?)
+            (client_id, task_name, done, date) VALUES (?,?,?,?)
             """;
     private static final String READ_TASK = """
-            SELECT id, client_id, task_name, done, date, index_in_form
+            SELECT id, client_id, task_name, done, date
             FROM to_do_list_repository.public.task
             WHERE id = ?
             """;
     private static final String READ_TASK_BY_DATE = """
-            SELECT id, client_id, task_name, done, date, index_in_form
+            SELECT id, client_id, task_name, done, date
             FROM to_do_list_repository.public.task
             WHERE date = ? AND client_id = ?
             """;
     private static final String UPDATE_TASK = """
             UPDATE to_do_list_repository.public.task
-            SET client_id=?, task_name=?, done=?, date=?, index_in_form =?
+            SET client_id=?, task_name=?, done=?, date=?
             WHERE id=?
             """;
     private static final String DELETE_TASK = """
@@ -45,7 +45,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             WHERE date=? AND client_id=?
             """;
     private static final String READ_ALL_TASK = """
-            SELECT id, client_id, task_name, done, date, index_in_form
+            SELECT id, client_id, task_name, done, date
             FROM to_do_list_repository.public.task
             """;
 
@@ -84,7 +84,6 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             statement.setObject(2, object.getTaskName());
             statement.setObject(3, object.getDone());
             statement.setObject(4, Date.valueOf(object.getDate()));
-            statement.setObject(5, object.getIndexInForm());
             statement.execute();
         }
         return Task.builder().build();
@@ -175,7 +174,6 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
                 .clientId(resultSet.getObject(2, Integer.class))
                 .taskName(resultSet.getObject(3, String.class))
                 .done(resultSet.getObject(4, Boolean.class))
-                .date(resultSet.getObject(5, LocalDate.class))
-                .indexInForm(resultSet.getObject(6, Integer.class)).build();
+                .date(resultSet.getObject(5, LocalDate.class)).build();
     }
 }

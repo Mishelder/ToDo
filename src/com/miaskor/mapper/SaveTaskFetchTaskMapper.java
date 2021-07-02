@@ -19,7 +19,6 @@ public class SaveTaskFetchTaskMapper implements Mapper<List<SaveTaskDto>,List<Fe
             listOfTasks.add(FetchTaskDto.builder()
                     .done(std.getDoneTask()!=null?"checked":"")
                     .taskName(std.getTask())
-                    .indexInForm(Integer.parseInt(std.getIndexInForm()))
                     .build());
         return listOfTasks;
     }
