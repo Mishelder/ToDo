@@ -1,12 +1,12 @@
 package com.miaskor.dto;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
-@Value
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FetchTaskDto {
-    Integer indexInForm;
     String taskName;
     String done;
 }
