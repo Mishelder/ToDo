@@ -1,6 +1,7 @@
-package com.miaskor.mapper;
+package com.miaskor.mapper.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.miaskor.mapper.Mapper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
