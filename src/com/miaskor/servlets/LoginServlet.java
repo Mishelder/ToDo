@@ -18,20 +18,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.ZonedDateTime;
 
 @WebServlet(ControllersURIKeys.LOGIN)
 public class LoginServlet extends HttpServlet {
 
     private final LoginClientService clientService = LoginClientService.getInstance();
-    private final FetchTaskService fetchTaskService = FetchTaskService.getInstance();
     private final ErrorMessagesToJsonMapper errorMessagesToJsonMapper =
             ErrorMessagesToJsonMapper.getInstance();
     private final JsonToLoginClientDtoMapper jsonToLoginClientDtoMapper =
             JsonToLoginClientDtoMapper.getInstance();
-    private final MapTasksToJsonMapper mapTasksToJsonMapper =
-            MapTasksToJsonMapper.getInstance();
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
@@ -49,15 +44,6 @@ public class LoginServlet extends HttpServlet {
             Cookie cookie = new Cookie("loggedIn", "true");
             resp.addCookie(cookie);
             req.getSession().setAttribute("client", client);
-            var now = ZonedDateTime.now();
-            var end_time = now.plusDays(4);
-            var tasks = mapTasksToJsonMapper
-                    .map(fetchTaskService
-                            .getTasks(now.toLocalDate(), end_time.toLocalDate(), client.getId()));
-            req.getSession().setAttribute("tasks", tasks);
-            req.getSession().setAttribute("start_time", now);
-            req.getSession().setAttribute("end_time", end_time);
-            req.getSession().setAttribute("pointer_time", now);
             resp.sendRedirect(ControllersURIKeys.TODO);
         } catch (ValidationException e) {
             String errors = errorMessagesToJsonMapper.map(e.getErrorMessages());
