@@ -6,6 +6,8 @@
 6. when use foreach to set classes to input, commas is setting between them -->
  (Done: When constructor retrieve ...style and set it to variable this.style,
  this.style store [[]] so i take the first element of this array)
+7. Uncaught (in promise) SyntaxError: Unexpected token < in JSON at position 4 at JSON.parse
+ registration_login.js: 131
 
 Maybe problems but i don't know
 1. call doPost method in
