@@ -14,13 +14,8 @@
 </div>
 <div class="above_footer">
     <div class="change_list">
-        <form class="change_left" action="${pageContext.request.contextPath}/flip/left" method="get">
-            <input type="submit" value="<-">
-        </form>
-
-        <form class="change_right" action="${pageContext.request.contextPath}/flip/right" method="get">
-            <input type="submit" value="->">
-        </form>
+            <input type="button" id="move_left" value="<-">
+            <input type="button" id="move_right" value="->">
     </div>
 </div>
 <%@include file="footer.jsp" %>
