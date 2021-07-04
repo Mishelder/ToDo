@@ -1,37 +1,50 @@
-class Input {
-    constructor(typeValue, id, value,
-                nameValue, placeHolder, ...style) {
-        this.typeValue = typeValue;
-        this.id = id;
-        this.style = style[0];
-        this.value = value;
-        this.nameValue = nameValue;
-        this.placeHolder = placeHolder;
-    }
+const now = new Date();
+const RANGE_VALUE = 8;
+const moveLeft = document.getElementById("move_left");
+const moveRight = document.getElementById("move_right");
+let moveableFrom = new Date();
+let moveableTo = new Date();
+let currentFrom = new Date();
+let currentTo = new Date();
+moveableFrom.setDate(moveableFrom.getDate() - RANGE_VALUE);
+moveableTo.setDate(moveableTo.getDate() + RANGE_VALUE);
+currentTo.setDate(currentTo.getDate() + RANGE_VALUE/2);
 
-    init() {
-        const input = document.createElement('input');
-        input.type = this.typeValue;
-        input.id = this.id;
-        this.style.forEach(item=>input.classList.add(item));
-        input.value = this.value;
-        input.name = this.nameValue;
-        input.placeholder = this.placeHolder;
-        return input;
-    }
+const allTasks = {}
 
-    renderAppend(parentElem) {
-        parentElem.append(this.init());
-    }
-
-    renderPrepend(parentElem) {
-        parentElem.prepend(this.init());
-    }
+function getTasks(from,to){
+    fetch('/fetch', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({'from' : from, 'to' : to}),
+    }).then(response => response.text())
+        .then(text => Object.assign(allTasks,JSON.parse(text)));
 }
 
-fetch('/fetch',{
-  method:'GET',
-}).then(response => response.text())
-    .then(text=>console.log(text));
+getTasks(moveableFrom.toDateString(),moveableTo.toDateString());
 
+moveLeft.addEventListener("click", () => {
+    currentFrom.setDate(currentFrom.getDate()-1);
+    currentTo.setDate(currentTo.getDate()-1);
+    if(moveableFrom.getDate() === currentFrom.getDate()){
+        moveableFrom.setDate(moveableFrom.getDate() - 1)
+        let to = new Date(moveableFrom);
+        moveableFrom.setDate(moveableFrom.getDate() - RANGE_VALUE/2);
+        let from = new Date(moveableFrom);
+        getTasks(from.toDateString(),to.toDateString());
+    }
+});
 
+moveRight.addEventListener("click", () => {
+    currentFrom.setDate(currentFrom.getDate()+1);
+    currentTo.setDate(currentTo.getDate()+1);
+    if(moveableTo.getDate() === currentTo.getDate()){
+        moveableTo.setDate(moveableTo.getDate() + 1)
+        let from = new Date(moveableTo);
+        moveableTo.setDate(moveableTo.getDate() + RANGE_VALUE/2);
+        let to = new Date(moveableTo);
+        getTasks(from.toDateString(),to.toDateString());
+    }
+});
