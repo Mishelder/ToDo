@@ -21,6 +21,9 @@
 </div>
 <%@ include file="footer.jsp"%>
 <noscript>You need to enable JavaScript to run this app.</noscript>
+<script src="${pageContext.request.contextPath}/css?fileName=input&extension=js&folder=js"></script>
+<script src="${pageContext.request.contextPath}/css?fileName=paragraph&extension=js&folder=js"></script>
 <script src="${pageContext.request.contextPath}/css?fileName=registration_login&extension=js&folder=js"></script>
+
 </body>
 </html>
