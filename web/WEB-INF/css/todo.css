@@ -1,25 +1,35 @@
 div.to_do_day {
     float: left;
     width: 20%;
-    height: auto;
+    height: 400px;
+    margin: 0;
+    padding: 0;
 }
 
+div.date{}
+
+div.tasks{}
+
+div.task{}
+
+div.value_task{}
+
+div.alternation_task{}
+
 div.to_do_list {
+    height: auto;
     width: 100%;
     display: inline-block;
     text-align: center;
 }
 
-
-.taskLi > .input[type=text]{
-    padding-bottom: 2px;
-    align-content: center;
+.change_right{
+    margin-left:10px;
 }
 
-.taskLi {
-    list-style-type: none;
+.change_left{
+    margin-right:10px;
 }
-
 .change_list{
     display:flex;
     margin:auto;
@@ -33,11 +43,6 @@ div.to_do_list {
     height: 40px;
     width:60px
 }
-
-.change_right{
-    margin-left:10px;
-}
-
-.change_left{
-    margin-right:10px;
+div.hidden{
+    display: none;
 }
