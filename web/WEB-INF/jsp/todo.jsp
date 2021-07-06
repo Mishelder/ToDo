@@ -9,16 +9,17 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<div class="to_do_list">
+<div id="to_do_list" class="to_do_list">
 
 </div>
 <div class="above_footer">
     <div class="change_list">
-            <input type="button" id="move_left" value="<-">
-            <input type="button" id="move_right" value="->">
+        <input type="button" id="move_left" value="<-">
+        <input type="button" id="move_right" value="->">
     </div>
 </div>
 <%@include file="footer.jsp" %>
+<script src="${pageContext.request.contextPath}/css?fileName=div&extension=js&folder=js"></script>
 <script src="${pageContext.request.contextPath}/css?fileName=todo&extension=js&folder=js"></script>
 </body>
 </html>
