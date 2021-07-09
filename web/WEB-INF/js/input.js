@@ -1,9 +1,9 @@
-class Input {
+class InputElement {
     constructor(typeValue, id, value,
                 nameValue, placeHolder, ...style) {
         this.typeValue = typeValue;
         this.id = id;
-        this.style = style[0];
+        this.style = style[0]===''?'':style;
         this.value = value;
         this.nameValue = nameValue;
         this.placeHolder = placeHolder;
@@ -11,20 +11,30 @@ class Input {
 
     init() {
         const input = document.createElement('input');
-        input.type = this.typeValue;
-        input.id = this.id;
-        this.style.forEach(item=>input.classList.add(item));
+        if(this.typeValue!=='')
+            input.type = this.typeValue;
+        if(this.id!=='')
+            input.id = this.id;
+        if(this.style!=='')
+            this.style.forEach(item=>input.classList.add(item));
+        if(this.value!=='')
         input.value = this.value;
+        if(this.nameValue!=='')
         input.name = this.nameValue;
+        if(this.placeHolder!=='')
         input.placeholder = this.placeHolder;
         return input;
     }
 
     renderAppend(parentElem) {
-        parentElem.append(this.init());
+        let tempInput = this.init()
+        parentElem.append(tempInput);
+        return tempInput;
     }
 
     renderPrepend(parentElem) {
-        parentElem.prepend(this.init());
+        let tempInput = this.init()
+        parentElem.prepend(tempInput);
+        return tempInput;
     }
 }
