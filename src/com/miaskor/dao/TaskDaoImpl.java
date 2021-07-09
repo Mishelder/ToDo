@@ -29,20 +29,21 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     private static final String READ_TASK_BY_DATE = """
             SELECT id, client_id, task_name, done, date
             FROM to_do_list_repository.public.task
-            WHERE date = ? AND client_id = ?
+            WHERE date = ? AND client_id = ? ORDER BY id
             """;
     private static final String UPDATE_TASK = """
             UPDATE to_do_list_repository.public.task
-            SET client_id=?, task_name=?, done=?, date=?
+            SET task_name=?
+            WHERE id=?
+            """;
+    private static final String UPDATE_DONE_TASK = """
+            UPDATE to_do_list_repository.public.task
+            SET done=?
             WHERE id=?
             """;
     private static final String DELETE_TASK = """
             DELETE FROM to_do_list_repository.public.task
             WHERE id=?
-            """;
-    private static final String DELETE_TASK_BY_DATE_AND_CLIENT_ID = """
-            DELETE FROM to_do_list_repository.public.task
-            WHERE date=? AND client_id=?
             """;
     private static final String READ_ALL_TASK = """
             SELECT id, client_id, task_name, done, date
@@ -79,14 +80,18 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @SneakyThrows
     public Task create(Task object) {
         try (var connection = ConnectionManager.getConnection();
-             var statement = connection.prepareStatement(CREATE_TASK)) {
+             var statement = connection.prepareStatement(CREATE_TASK,PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setObject(1, object.getClientId());
             statement.setObject(2, object.getTaskName());
             statement.setObject(3, object.getDone());
             statement.setObject(4, Date.valueOf(object.getDate()));
-            statement.execute();
+            statement.executeUpdate();
+            var generatedKeys = statement.getGeneratedKeys();
+            if(generatedKeys.next()){
+                object.setId(generatedKeys.getObject(1,Integer.class));
+            }
         }
-        return Task.builder().build();
+        return object;
     }
 
     @Override
@@ -143,8 +148,25 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     }
 
     @Override
-    public void update(Task object) {
+    @SneakyThrows
+    public void updateTaskDone(Task task) {
+        try (var connection = ConnectionManager.getConnection();
+             var statement = connection.prepareStatement(UPDATE_DONE_TASK)) {
+            statement.setBoolean(1,task.getDone());
+            statement.setInt(2,task.getId());
+            statement.execute();
+        }
+    }
 
+    @Override
+    @SneakyThrows
+    public void update(Task task) {
+        try (var connection = ConnectionManager.getConnection();
+             var statement = connection.prepareStatement(UPDATE_TASK)) {
+            statement.setString(1,task.getTaskName());
+            statement.setInt(2,task.getId());
+            statement.execute();
+        }
     }
 
     @Override
@@ -154,17 +176,6 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
              var preparedStatement = connection.prepareStatement(DELETE_TASK)) {
             preparedStatement.setInt(1, index);
             return preparedStatement.execute();
-        }
-    }
-
-    @Override
-    @SneakyThrows
-    public void deleteTaskByDateAndClientId(LocalDate day,Integer clientId) {
-        try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(DELETE_TASK_BY_DATE_AND_CLIENT_ID)) {
-            preparedStatement.setDate(1, Date.valueOf(day));
-            preparedStatement.setInt(2,clientId);
-            preparedStatement.execute();
         }
     }
 
