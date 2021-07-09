@@ -19,6 +19,7 @@
     </div>
 </div>
 <%@include file="footer.jsp" %>
+<script src="${pageContext.request.contextPath}/css?fileName=input&extension=js&folder=js"></script>
 <script src="${pageContext.request.contextPath}/css?fileName=div&extension=js&folder=js"></script>
 <script src="${pageContext.request.contextPath}/css?fileName=todo&extension=js&folder=js"></script>
 </body>
