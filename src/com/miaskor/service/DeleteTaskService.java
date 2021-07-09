@@ -1,6 +1,7 @@
 package com.miaskor.service;
 
 import com.miaskor.dao.TaskDaoImpl;
+import com.miaskor.dto.DeleteTaskDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +12,8 @@ public class DeleteTaskService {
     private static final DeleteTaskService INSTANCE = new DeleteTaskService();
     private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
 
-    public void deleteTasksByDayAndClientId(Integer clientId, LocalDate date){
-        taskDao.deleteTaskByDateAndClientId(date, clientId);
+    public void deleteTask(DeleteTaskDto deleteTaskDto){
+        taskDao.delete(deleteTaskDto.getId());
     }
 
     public static DeleteTaskService getInstance(){
