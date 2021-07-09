@@ -3,10 +3,10 @@
 const headerSingIn = document.getElementById("signIn");
 const headerSignUp = document.getElementById("signUp");
 const form = document.getElementById("form");
-const login = createInput("text","login","","login","login","fadeIn", "second");
-const password = createInput('password', 'password', "", "password", 'password', 'fadeIn', 'third');
-const email = createInput('email', 'email', "", 'email', 'email', 'fadeIn', 'first', 'hidden');
-const submitInput = createInput('submit', 'submit', 'Sign In', "", "", 'fadeIn', 'fourth');
+const login = new InputElement("text","login","","login","login","fadeIn", "second");
+const password = new InputElement('password', 'password', "", "password", 'password', 'fadeIn', 'third');
+const email = new InputElement('email', 'email', "", 'email', 'email', 'fadeIn', 'first', 'hidden');
+const submitInput = new InputElement('submit', 'submit', 'Sign In', "", "", 'fadeIn', 'fourth');
 const loginError = new Paragraph('loginError', '', 'red', 'hidden');
 const emailError = new Paragraph('emailError', '', 'red', 'hidden');
 const passwordError = new Paragraph('passwordError', '', 'red', 'hidden');
@@ -59,10 +59,6 @@ function changeActiveHeader() {
         }
         changeActiveStatusClass(activeElement.classList, nonActiveElement.classList);
     }
-}
-
-function createInput(typeValue, id, value, nameValue, placeHolder, ...classList) {
-    return new Input(typeValue, id, value, nameValue, placeHolder, classList);
 }
 
 changeActiveHeader();
