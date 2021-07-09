@@ -1,13 +1,15 @@
 class Div {
     constructor(id, ...style) {
         this.id = id;
-        this.style = style;
+        this.style = style === '' ? '' : style;
     }
 
     init() {
         const div = document.createElement('div');
-        div.id = this.id;
-        this.style.forEach(item=>div.classList.add(item));
+        if (this.id !== '')
+            div.id = this.id;
+        if (this.style !== '')
+            this.style.forEach(item => div.classList.add(item));
         return div;
     }
 
