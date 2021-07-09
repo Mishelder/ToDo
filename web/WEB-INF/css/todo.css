@@ -1,20 +1,92 @@
+html
+{
+    --todo-border-color:rgba(0,0,0,0.3);
+}
+html[theme=dark]
+{
+    --todo-border-color:rgba(255,255,255, .03);
+
+}
 div.to_do_day {
+    margin:20px 0 0;
     float: left;
     width: 20%;
-    height: 400px;
-    margin: 0;
-    padding: 0;
+    min-height: 400px;
+    height:auto;
 }
 
 div.date{}
 
-div.tasks{}
+.value_task > input{
+    border:none;
+    background: transparent;
+    outline: 0;
+    height: 21px;
+    margin:3px 0 0;
+    padding:0;
+    width:100%;
+}
 
-div.task{}
+input.is_done{
+    text-decoration: line-through;
+}
 
-div.value_task{}
+input.no_mouse {
+    user-focus-pointer: none;
+}
 
-div.alternation_task{}
+input:disabled{
+    color:black;
+}
+
+input:hover{
+    color:red;
+}
+
+div.tasks{
+    min-height:400px;
+    height:auto;
+    margin: 0 auto;
+    width: 80%;
+    background-image:repeating-linear-gradient(transparent,transparent 21px,var(--todo-border-color) 21px,var(--todo-border-color) 22px,transparent 22px,transparent 24px);
+    flex:1 1 80%;
+}
+
+div.task{
+    display:inline-flex;
+    width:100%;
+}
+
+
+
+div.value_task{
+    width:100%;
+    float:left;
+}
+
+div.alternation_task{
+    padding-top: 3.2px;
+    display:inline-flex;
+    width:auto;
+}
+
+.task:hover .alternation_task{
+    display:inline-flex;
+}
+
+div.delete_image{
+    margin-right: 5px;
+    margin-bottom:0;
+    padding:0;
+    cursor: pointer;
+}
+
+div.alternate_image{
+    margin-right: 5px;
+    margin-bottom:0;
+    padding:0;
+    cursor: pointer;
+}
 
 div.to_do_list {
     height: auto;
