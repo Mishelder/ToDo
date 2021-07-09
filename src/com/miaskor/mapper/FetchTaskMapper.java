@@ -16,6 +16,7 @@ public class FetchTaskMapper implements Mapper<List<Task>,List<FetchTaskDto>> {
         return from.stream()
                 .map(task ->
                         FetchTaskDto.builder()
+                                .id(task.getId())
                                 .taskName(task.getTaskName())
                                 .done(task.getDone()?"checked":"")
                                 .build())
