@@ -12,12 +12,15 @@ import java.io.InputStreamReader;
 
 @UtilityClass
 public class JsonUtil {
+
+    private static final int BUFFER_SIZE = 256;
+
     public static String parseBody(HttpServletRequest req) {
         StringBuilder stringBuilder = new StringBuilder();
         try(InputStream inputStream = req.getInputStream()) {
             if (inputStream != null) {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                char[] charBuffer = new char[256];
+                char[] charBuffer = new char[BUFFER_SIZE];
                 int bytesRead = -1;
                 while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
                     stringBuilder.append(charBuffer, 0, bytesRead);
