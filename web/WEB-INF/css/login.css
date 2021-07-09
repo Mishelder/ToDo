@@ -119,13 +119,13 @@ input[type=email]{
     border: none;
     color: #0d0d0d;
     padding: 15px 32px;
-    border-bottom: 2px solid #5fbae9;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 5px;
     width: 85%;
+    border: 2px solid #f6f6f6;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
@@ -135,17 +135,25 @@ input[type=email]{
     border-radius: 5px 5px 5px 5px;
 }
 
-/*input[type=text],
-input[type=password],
+input[type=text]:focus,
+input[type=password]:focus,
 input[type=email]:focus {
     background-color: #fff;
     border-bottom: 2px solid #5fbae9;
     color: #0d0d0d;
-}*/
+}
 
-input[type=text],
-input[type=password],
-input[type=email]::placeholder {
+input[type=text]:not(:focus),
+input[type=password]:not(:focus),
+input[type=email]:not(:focus) {
+    background-color: #f6f6f6;
+    border: none;
+    color: #0d0d0d;
+}
+
+input[type=text]::placeholder,
+input[type=email]::placeholder,
+input[type=password]::placeholder {
     color: #0d0d0d;
 }
 
