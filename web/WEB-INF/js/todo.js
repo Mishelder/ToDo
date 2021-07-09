@@ -177,6 +177,8 @@ function createToDoDay(date, append) {
     } else {
         toDoDayElement = divToDoDay.renderPrepend(toDoListDiv);
     }
+    if(date.formatToDMY()===now.formatToDMY())
+        toDoDayElement.classList.add('current_day');
     let dateElement = divDate.renderAppend(toDoDayElement);
     dateElement.append(labelDate);
     divTasks.renderAppend(toDoDayElement);
