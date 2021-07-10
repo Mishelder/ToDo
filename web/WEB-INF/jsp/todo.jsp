@@ -4,7 +4,7 @@
 <head>
     <title>TODO</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css?fileName=todo&extension=css&folder=css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/fileLoader?fileName=todo&extension=css&folder=css"
           type="text/css">
 </head>
 <body>
@@ -19,8 +19,8 @@
     </div>
 </div>
 <%@include file="footer.jsp" %>
-<script src="${pageContext.request.contextPath}/css?fileName=input&extension=js&folder=js"></script>
-<script src="${pageContext.request.contextPath}/css?fileName=div&extension=js&folder=js"></script>
-<script src="${pageContext.request.contextPath}/css?fileName=todo&extension=js&folder=js"></script>
+<script src="${pageContext.request.contextPath}/fileLoader?fileName=input&extension=js&folder=js"></script>
+<script src="${pageContext.request.contextPath}/fileLoader?fileName=div&extension=js&folder=js"></script>
+<script src="${pageContext.request.contextPath}/fileLoader?fileName=todo&extension=js&folder=js"></script>
 </body>
 </html>

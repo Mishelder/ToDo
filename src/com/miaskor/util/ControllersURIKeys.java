@@ -8,7 +8,7 @@ import java.util.Set;
 public class ControllersURIKeys {
     public static final String LOGIN = "/login";
     public static final String REGISTRATION = "/registration";
-    public static final String CSS_LOADER = "/css";
+    public static final String LOADER = "/fileLoader";
     public static final String SAVE_TASK = "/saveTask";
     public static final String LOGOUT = "/logout";
     public static final String FLIP_RIGHT = "/flip/right";
@@ -21,12 +21,12 @@ public class ControllersURIKeys {
     public static final String UPDATE = "/update";
 
     public static Set<String> getAllFeasibleURL() {
-        return Set.of(LOGIN, REGISTRATION, CSS_LOADER, SAVE_TASK,
+        return Set.of(LOGIN, REGISTRATION, LOADER, SAVE_TASK,
                 LOGOUT, FLIP_RIGHT, FLIP_LEFT, TODO, FETCH,SAVE,
                 DELETE,UPDATE_DONE,UPDATE);
     }
 
     public static Set<String> getAllPublicURL() {
-        return Set.of(LOGIN, REGISTRATION, CSS_LOADER);
+        return Set.of(LOGIN, REGISTRATION, LOADER);
     }
 }

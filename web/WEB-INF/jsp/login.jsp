@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Login</title>
-    <link href="${pageContext.request.contextPath}/css?fileName=login&extension=css&folder=css" rel="stylesheet"
+    <link href="${pageContext.request.contextPath}/fileLoader?fileName=login&extension=css&folder=css" rel="stylesheet"
           type="text/css"/>
 
 </head>
@@ -21,9 +21,9 @@
 </div>
 <%@ include file="footer.jsp"%>
 <noscript>You need to enable JavaScript to run this app.</noscript>
-<script src="${pageContext.request.contextPath}/css?fileName=input&extension=js&folder=js"></script>
-<script src="${pageContext.request.contextPath}/css?fileName=paragraph&extension=js&folder=js"></script>
-<script src="${pageContext.request.contextPath}/css?fileName=registration_login&extension=js&folder=js"></script>
+<script src="${pageContext.request.contextPath}/fileLoader?fileName=input&extension=js&folder=js"></script>
+<script src="${pageContext.request.contextPath}/fileLoader?fileName=paragraph&extension=js&folder=js"></script>
+<script src="${pageContext.request.contextPath}/fileLoader?fileName=registration_login&extension=js&folder=js"></script>
 
 </body>
 </html>

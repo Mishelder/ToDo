@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <link href="${pageContext.request.contextPath}/css?fileName=header&extension=css&folder=css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/fileLoader?fileName=header&extension=css&folder=css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="header_container">
