@@ -6,7 +6,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
+import static com.miaskor.util.DateUtil.FORMATTER_FOR_POSTGRESQL;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SaveTaskDtoToTaskMapper implements Mapper<SaveTaskDto, Task> {
@@ -14,12 +15,11 @@ public class SaveTaskDtoToTaskMapper implements Mapper<SaveTaskDto, Task> {
 
     @Override
     public Task map(SaveTaskDto from) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return Task.builder()
                 .clientId(from.getClientId())
                 .done(from.getDoneTask().equals("checked"))
                 .taskName(from.getTask())
-                .date(LocalDate.parse(from.getDate(),dateTimeFormatter))
+                .date(LocalDate.parse(from.getDate(),FORMATTER_FOR_POSTGRESQL))
                 .build();
     }
 

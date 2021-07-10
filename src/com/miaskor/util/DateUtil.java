@@ -14,6 +14,8 @@ public class DateUtil {
     private static final Integer COUNT_OF_DAYS = 5;
     public static final DateTimeFormatter FORMATTER_FROM_JS_DATE_FORMAT =
             DateTimeFormatter.ofPattern("EEE MMM dd yyyy");
+    public static final DateTimeFormatter FORMATTER_FOR_POSTGRESQL =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
     @Deprecated(since = "Since switching to javascript")
