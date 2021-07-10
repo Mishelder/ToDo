@@ -10,9 +10,9 @@ public class UpdateTaskDoneDtoToTaskMapper implements Mapper<UpdateTaskDoneDto, 
     private static final UpdateTaskDoneDtoToTaskMapper INSTANCE = new UpdateTaskDoneDtoToTaskMapper();
 
     @Override
-    public Task map(UpdateTaskDoneDto object) {
-        return Task.builder().id(object.getId())
-                .done(object.getIsDone())
+    public Task map(UpdateTaskDoneDto from) {
+        return Task.builder().id(from.getId())
+                .done(from.getIsDone())
                 .build();
     }
 

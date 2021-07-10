@@ -15,8 +15,8 @@ public class JsonRangeDateToMapMapper implements Mapper<String, Map<String, Stri
 
     @SneakyThrows
     @Override
-    public Map<String, String> map(String object) {
-        return jsonMapper.readValue(object, Map.class);
+    public Map<String, String> map(String from) {
+        return jsonMapper.readValue(from, Map.class);
     }
 
     public static JsonRangeDateToMapMapper getInstance(){

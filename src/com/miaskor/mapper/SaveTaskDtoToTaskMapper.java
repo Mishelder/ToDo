@@ -13,13 +13,13 @@ public class SaveTaskDtoToTaskMapper implements Mapper<SaveTaskDto, Task> {
     private static final SaveTaskDtoToTaskMapper INSTANCE = new SaveTaskDtoToTaskMapper();
 
     @Override
-    public Task map(SaveTaskDto object) {
+    public Task map(SaveTaskDto from) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return Task.builder()
-                .clientId(object.getClientId())
-                .done(object.getDoneTask().equals("checked"))
-                .taskName(object.getTask())
-                .date(LocalDate.parse(object.getDate(),dateTimeFormatter))
+                .clientId(from.getClientId())
+                .done(from.getDoneTask().equals("checked"))
+                .taskName(from.getTask())
+                .date(LocalDate.parse(from.getDate(),dateTimeFormatter))
                 .build();
     }
 

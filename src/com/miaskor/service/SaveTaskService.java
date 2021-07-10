@@ -14,7 +14,8 @@ public class SaveTaskService {
     private final SaveTaskDtoToTaskMapper mapper = SaveTaskDtoToTaskMapper.getInstance();
 
     public Task saveTask(SaveTaskDto saveTaskDto){
-        return taskDao.create(mapper.map(saveTaskDto));
+        var mappedTask = mapper.map(saveTaskDto);
+        return taskDao.create(mappedTask);
     }
 
     public static SaveTaskService getInstance(){

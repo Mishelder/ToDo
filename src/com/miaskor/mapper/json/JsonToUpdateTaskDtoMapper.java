@@ -14,8 +14,8 @@ public class JsonToUpdateTaskDtoMapper implements Mapper<String, UpdateTaskDto> 
 
     @Override
     @SneakyThrows
-    public UpdateTaskDto map(String object) {
-        return jsonMapper.readValue(object,UpdateTaskDto.class);
+    public UpdateTaskDto map(String from) {
+        return jsonMapper.readValue(from,UpdateTaskDto.class);
     }
 
     public static JsonToUpdateTaskDtoMapper getInstance(){

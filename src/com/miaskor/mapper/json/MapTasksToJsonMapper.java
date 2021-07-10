@@ -17,8 +17,8 @@ public class MapTasksToJsonMapper implements Mapper<Map<String, List<FetchTaskDt
 
     @Override
     @SneakyThrows
-    public String map(Map<String, List<FetchTaskDto>> object) {
-        return jsonMapper.writeValueAsString(object);
+    public String map(Map<String, List<FetchTaskDto>> from) {
+        return jsonMapper.writeValueAsString(from);
     }
 
     public static MapTasksToJsonMapper getInstance(){

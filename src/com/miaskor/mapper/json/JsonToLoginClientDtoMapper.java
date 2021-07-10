@@ -14,8 +14,8 @@ public class JsonToLoginClientDtoMapper implements Mapper<String, LoginClientDto
 
     @Override
     @SneakyThrows
-    public LoginClientDto map(String object) {
-        return objectMapper.readValue(object, LoginClientDto.class);
+    public LoginClientDto map(String from) {
+        return objectMapper.readValue(from, LoginClientDto.class);
     }
 
     public static JsonToLoginClientDtoMapper getInstance() {

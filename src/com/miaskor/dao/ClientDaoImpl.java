@@ -5,12 +5,15 @@ import com.miaskor.entity.Client;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor(access= AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClientDaoImpl implements ClientDao<Integer, Client> {
 
     private static final ClientDaoImpl INSTANCE = new ClientDaoImpl();
@@ -22,7 +25,7 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
             SELECT id,login,email,password FROM to_do_list_repository.public.client""";
     private static final String UPDATE_CLIENT = """
             UPDATE to_do_list_repository.public.client
-            SET login = ?,email=?,password=? WHERE id ?""" ;
+            SET login = ?,email=?,password=? WHERE id ?""";
     private static final String DELETE_CLIENT_BY_ID = """
             DELETE FROM to_do_list_repository.public.client WHERE id = ?""";
     private static final String READ_ALL_CLIENT = """
@@ -32,7 +35,7 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
     private static final String READ_BY_EMAIL = """
             SELECT id,login,email,password FROM to_do_list_repository.public.client WHERE email = ?""";
 
-    public static ClientDaoImpl getInstance(){
+    public static ClientDaoImpl getInstance() {
         return INSTANCE;
     }
 
@@ -40,14 +43,14 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
     @SneakyThrows
     public Client create(Client object) {
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(CREATE_CLIENT)) {
+             var preparedStatement = connection.prepareStatement(CREATE_CLIENT, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, object.getLogin());
             preparedStatement.setString(2, object.getEmail());
             preparedStatement.setString(3, object.getPassword());
             preparedStatement.execute();
             var generatedKeys = preparedStatement.getGeneratedKeys();
-            if(generatedKeys.next())
-                object.setId(generatedKeys.getObject(1,Integer.class));
+            if (generatedKeys.next())
+                object.setId(generatedKeys.getObject(1, Integer.class));
         }
         return object;
     }
@@ -60,8 +63,8 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
              var preparedStatement = connection.prepareStatement(READ_CLIENT)) {
             preparedStatement.setInt(1, index);
             var resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                 client = buildClient(resultSet);
+            if (resultSet.next()) {
+                client = buildClient(resultSet);
             }
         }
         return Optional.ofNullable(client);
@@ -92,12 +95,12 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
 
     @Override
     @SneakyThrows
-    public List<Client> findAll(){
+    public List<Client> findAll() {
         List<Client> clients = new ArrayList<>();
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_ALL_CLIENT)) {
             var resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 clients.add(buildClient(resultSet));
             }
         }
@@ -112,7 +115,7 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
              var preparedStatement = connection.prepareStatement(READ_BY_LOGIN)) {
             preparedStatement.setString(1, login);
             var resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 client = buildClient(resultSet);
             }
         }
@@ -127,18 +130,18 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
              var preparedStatement = connection.prepareStatement(READ_BY_EMAIL)) {
             preparedStatement.setString(1, email);
             var resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 client = buildClient(resultSet);
             }
         }
         return Optional.ofNullable(client);
     }
 
-    private Client buildClient(ResultSet resultSet) throws java.sql.SQLException {
-        return Client.builder().id(resultSet.getObject(1,Integer.class))
-                .login(resultSet.getObject(2,String.class))
-                .email(resultSet.getObject(3,String.class))
-                .password(resultSet.getObject(4,String.class))
+    private Client buildClient(ResultSet resultSet) throws SQLException {
+        return Client.builder().id(resultSet.getObject(1, Integer.class))
+                .login(resultSet.getObject(2, String.class))
+                .email(resultSet.getObject(3, String.class))
+                .password(resultSet.getObject(4, String.class))
                 .build();
     }
 }

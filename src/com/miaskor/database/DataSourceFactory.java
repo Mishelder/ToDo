@@ -20,7 +20,7 @@ public class DataSourceFactory {
     private static final String POOL_SIZE_KEY = "db.maxPoolSize";
     private static final String IDLE_TIMEOUT_KEY = "db.idleTimeout";
     private static final String POOL_NAME_KEY = "db.poolName";
-    public static final String DRIVER_KEY = "db.driver";
+    private static final String DRIVER_KEY = "db.driver";
     private static final HikariConfig HIKARI_CONFIG = new HikariConfig();
 
     static {

@@ -14,8 +14,8 @@ public class TaskIdToJsonMapper implements Mapper<Task,String> {
 
     @SneakyThrows
     @Override
-    public String map(Task object) {
-        return jsonMapper.writeValueAsString(object.getId());
+    public String map(Task from) {
+        return jsonMapper.writeValueAsString(from.getId());
     }
 
     public static TaskIdToJsonMapper getInstance(){

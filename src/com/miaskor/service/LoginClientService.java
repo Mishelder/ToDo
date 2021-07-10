@@ -28,8 +28,9 @@ public class LoginClientService {
         if (!(valid.isValid())) {
             throw new ValidationException(valid.getErrorMessages());
         }
-        Optional<Client> client = clientDao.readByLogin(clientDto.getLogin());
-        return client.get();
+        var clientLogin = clientDto.getLogin();
+        Optional<Client> client = clientDao.readByLogin(clientLogin);
+        return client.orElseGet(() -> Client.builder().build());
     }
 
     public static LoginClientService getInstance() {

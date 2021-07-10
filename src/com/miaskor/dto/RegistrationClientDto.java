@@ -1,8 +1,6 @@
 package com.miaskor.dto;
 
-
 import lombok.*;
-
 
 @Data
 @Builder

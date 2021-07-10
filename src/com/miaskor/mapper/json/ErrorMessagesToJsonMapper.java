@@ -15,8 +15,8 @@ public class ErrorMessagesToJsonMapper implements Mapper<Map<String,String>,Stri
 
     @Override
     @SneakyThrows
-    public String map(Map<String, String> object)  {
-        return objectMapper.writeValueAsString(object);
+    public String map(Map<String, String> from)  {
+        return objectMapper.writeValueAsString(from);
     }
 
     public static ErrorMessagesToJsonMapper getInstance(){

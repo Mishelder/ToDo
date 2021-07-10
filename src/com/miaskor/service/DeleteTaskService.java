@@ -13,7 +13,8 @@ public class DeleteTaskService {
     private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
 
     public void deleteTask(DeleteTaskDto deleteTaskDto){
-        taskDao.delete(deleteTaskDto.getId());
+        int deleteTaskId = deleteTaskDto.getId();
+        taskDao.delete(deleteTaskId);
     }
 
     public static DeleteTaskService getInstance(){

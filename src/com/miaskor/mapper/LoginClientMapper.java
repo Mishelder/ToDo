@@ -11,10 +11,10 @@ public class LoginClientMapper implements Mapper<LoginClientDto, Client>{
     private static final LoginClientMapper INSTANCE = new LoginClientMapper();
 
     @Override
-    public Client map(LoginClientDto object) {
+    public Client map(LoginClientDto from) {
         return Client.builder()
-                .login(object.getLogin())
-                .password(object.getPassword())
+                .login(from.getLogin())
+                .password(from.getPassword())
                 .build();
     }
 

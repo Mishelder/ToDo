@@ -11,11 +11,11 @@ public class RegistrationClientMapper implements Mapper<RegistrationClientDto, C
     private static final RegistrationClientMapper INSTANCE = new RegistrationClientMapper();
 
     @Override
-    public Client map(RegistrationClientDto object) {
+    public Client map(RegistrationClientDto from) {
         return Client.builder()
-                .login(object.getLogin())
-                .email(object.getEmail())
-                .password(object.getPassword())
+                .login(from.getLogin())
+                .email(from.getEmail())
+                .password(from.getPassword())
                 .build();
     }
 

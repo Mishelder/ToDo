@@ -14,8 +14,8 @@ public class JsonToDeleteTaskDtoMapper implements Mapper<String, DeleteTaskDto> 
 
     @SneakyThrows
     @Override
-    public DeleteTaskDto map(String object) {
-        return jsonMapper.readValue(object,DeleteTaskDto.class);
+    public DeleteTaskDto map(String from) {
+        return jsonMapper.readValue(from,DeleteTaskDto.class);
     }
 
     public static JsonToDeleteTaskDtoMapper getInstance(){

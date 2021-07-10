@@ -1,5 +1,6 @@
 package com.miaskor.servlets;
 
+import com.miaskor.entity.Client;
 import com.miaskor.exception.ValidationException;
 import com.miaskor.mapper.json.ErrorMessagesToJsonMapper;
 import com.miaskor.mapper.json.JsonToRegistrationClientDtoMapper;
@@ -29,7 +30,7 @@ public class RegistrationServlet extends HttpServlet {
         String body = JsonUtil.parseBody(req);
         var registrationClientDto = jsonToRegistrationClientDtoMapper.map(body);
         try {
-            registrationClientService.
+            Client client = registrationClientService.
                     registerClient(registrationClientDto);
         }catch (ValidationException e){
             String errors = errorMessagesToJsonMapper.map(e.getErrorMessages());

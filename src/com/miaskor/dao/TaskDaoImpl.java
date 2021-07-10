@@ -1,6 +1,5 @@
 package com.miaskor.dao;
 
-import com.miaskor.cache.TasksCacheLRU;
 import com.miaskor.database.ConnectionManager;
 import com.miaskor.entity.Task;
 import lombok.AccessLevel;
@@ -55,7 +54,6 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
         return INSTANCE;
     }
 
-
     /*
      * clientDao.read(resultSet.getObject(2,Integer.class)).get()
      * won't throw NoSuchElementException because cell in database cannot be null
@@ -105,16 +103,16 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @Override
     @SneakyThrows
     public Optional<Task> read(Integer index) {
-        Optional<Task> task = Optional.empty();
+        Task task = null;
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_TASK)) {
             preparedStatement.setInt(1, index);
             var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                task = Optional.ofNullable(buildTask(resultSet));
+                task = buildTask(resultSet);
             }
         }
-        return task;
+        return Optional.ofNullable(task);
     }
 
     @Override
@@ -137,8 +135,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @SneakyThrows
     public Map<LocalDate, List<Task>> readAllTaskByPeriod(LocalDate from, LocalDate to,Integer clientIndex) {
         Map<LocalDate, List<Task>> tasks = new HashMap<>();
-        to = to.plusDays(1);
-        while (!from.equals(to)) {
+        while (!from.equals(to.plusDays(1))) {
             var tasksByDay = readByDate(from, clientIndex);
             if(!tasksByDay.isEmpty())
                 tasks.put(from, tasksByDay);
@@ -179,7 +176,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
         }
     }
 
-    private Task buildTask(ResultSet resultSet) throws java.sql.SQLException {
+    private Task buildTask(ResultSet resultSet) throws SQLException {
         return Task.builder()
                 .id(resultSet.getObject(1, Integer.class))
                 .clientId(resultSet.getObject(2, Integer.class))

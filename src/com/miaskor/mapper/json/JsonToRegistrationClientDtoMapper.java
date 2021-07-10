@@ -1,6 +1,5 @@
 package com.miaskor.mapper.json;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miaskor.dto.RegistrationClientDto;
 import com.miaskor.mapper.Mapper;
@@ -15,8 +14,8 @@ public class JsonToRegistrationClientDtoMapper implements Mapper<String, Registr
 
     @Override
     @SneakyThrows
-    public RegistrationClientDto map(String json) {
-        return jsonMapper.readValue(json, RegistrationClientDto.class);
+    public RegistrationClientDto map(String from) {
+        return jsonMapper.readValue(from, RegistrationClientDto.class);
     }
 
     public static JsonToRegistrationClientDtoMapper getInstance() {

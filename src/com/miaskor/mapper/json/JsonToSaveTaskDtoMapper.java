@@ -14,8 +14,8 @@ public class JsonToSaveTaskDtoMapper implements Mapper<String, SaveTaskDto> {
 
     @SneakyThrows
     @Override
-    public SaveTaskDto map(String object) {
-        return jsonMapper.readValue(object,SaveTaskDto.class);
+    public SaveTaskDto map(String from) {
+        return jsonMapper.readValue(from,SaveTaskDto.class);
     }
 
     public static JsonToSaveTaskDtoMapper getInstance(){
