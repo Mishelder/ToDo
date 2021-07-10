@@ -5,7 +5,7 @@ import com.miaskor.exception.ValidationException;
 import com.miaskor.mapper.json.ErrorMessagesToJsonMapper;
 import com.miaskor.mapper.json.JsonToRegistrationClientDtoMapper;
 import com.miaskor.service.RegistrationClientService;
-import com.miaskor.util.ControllersURIKeys;
+import com.miaskor.util.Constants;
 import com.miaskor.util.JsonUtil;
 
 import javax.servlet.ServletException;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(ControllersURIKeys.REGISTRATION)
+@WebServlet(Constants.ControllersURI.REGISTRATION)
 public class RegistrationServlet extends HttpServlet {
 
     private final RegistrationClientService registrationClientService =

@@ -1,7 +1,6 @@
 package com.miaskor.servlets;
 
-import com.miaskor.util.ControllersURIKeys;
-import com.miaskor.util.DateUtil;
+import com.miaskor.util.Constants;
 import com.miaskor.util.WebFilePath;
 
 import javax.servlet.ServletException;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {ControllersURIKeys.TODO, ControllersURIKeys.TODO + "/start"})
+@WebServlet(urlPatterns = {Constants.ControllersURI.TODO, Constants.ControllersURI.TODO + "/start"})
 public class ToDoServlet extends HttpServlet {
 
     @Override

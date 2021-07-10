@@ -2,7 +2,7 @@ package com.miaskor.servlets;
 
 import com.miaskor.mapper.json.JsonToUpdateTaskDoneDtoMapper;
 import com.miaskor.service.UpdateService;
-import com.miaskor.util.ControllersURIKeys;
+import com.miaskor.util.Constants;
 import com.miaskor.util.JsonUtil;
 
 import javax.servlet.ServletException;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(ControllersURIKeys.UPDATE_DONE)
+@WebServlet(Constants.ControllersURI.UPDATE_DONE)
 public class UpdateDoneServlet extends HttpServlet {
 
     private final UpdateService updateService = UpdateService.getInstance();

@@ -1,13 +1,13 @@
 package com.miaskor.servlets;
 
-import com.miaskor.util.ControllersURIKeys;
+import com.miaskor.util.Constants;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-@WebServlet(ControllersURIKeys.LOGOUT)
+@WebServlet(Constants.ControllersURI.LOGOUT)
 public class LogoutServlet extends HttpServlet {
 
     @Override
@@ -15,6 +15,6 @@ public class LogoutServlet extends HttpServlet {
         req.getSession().invalidate();
         Cookie cookie = new Cookie("loggedIn","false");
         resp.addCookie(cookie);
-        resp.sendRedirect(ControllersURIKeys.LOGIN);
+        resp.sendRedirect(Constants.ControllersURI.LOGIN);
     }
 }

@@ -3,10 +3,8 @@ package com.miaskor.servlets;
 import com.miaskor.exception.ValidationException;
 import com.miaskor.mapper.json.ErrorMessagesToJsonMapper;
 import com.miaskor.mapper.json.JsonToLoginClientDtoMapper;
-import com.miaskor.mapper.json.MapTasksToJsonMapper;
-import com.miaskor.service.FetchTaskService;
 import com.miaskor.service.LoginClientService;
-import com.miaskor.util.ControllersURIKeys;
+import com.miaskor.util.Constants;
 import com.miaskor.util.JsonUtil;
 import com.miaskor.util.WebFilePath;
 
@@ -19,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@WebServlet(ControllersURIKeys.LOGIN)
+@WebServlet(Constants.ControllersURI.LOGIN)
 public class LoginServlet extends HttpServlet {
 
     private final LoginClientService clientService = LoginClientService.getInstance();
@@ -43,8 +41,8 @@ public class LoginServlet extends HttpServlet {
             var client = clientService.loginClient(loginClientDto);
             Cookie cookie = new Cookie("loggedIn", "true");
             resp.addCookie(cookie);
-            req.getSession().setAttribute("client", client);
-            resp.sendRedirect(ControllersURIKeys.TODO);
+            req.getSession().setAttribute(Constants.Attributes.CLIENT, client);
+            resp.sendRedirect(Constants.ControllersURI.TODO);
         } catch (ValidationException e) {
             String errors = errorMessagesToJsonMapper.map(e.getErrorMessages());
             resp.getWriter().write(errors);

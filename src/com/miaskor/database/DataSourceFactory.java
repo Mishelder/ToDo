@@ -1,6 +1,6 @@
 package com.miaskor.database;
 
-import com.miaskor.util.PropertyNames;
+import com.miaskor.util.Constants;
 import com.miaskor.util.PropertyUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -33,24 +33,24 @@ public class DataSourceFactory {
 
     private static void init() {
         HIKARI_CONFIG.setJdbcUrl(PropertyUtil
-                .getProperty(URL_KEY, PropertyNames.DATABASE));
+                .getProperty(URL_KEY, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.setUsername(PropertyUtil
-                .getProperty(NAME_KEY, PropertyNames.DATABASE));
+                .getProperty(NAME_KEY, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.setPassword(PropertyUtil
-                .getProperty(PASSWORD_KEY, PropertyNames.DATABASE));
+                .getProperty(PASSWORD_KEY, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.setPoolName(PropertyUtil
-                .getProperty(POOL_NAME_KEY, PropertyNames.DATABASE));
+                .getProperty(POOL_NAME_KEY, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.setIdleTimeout(Long.parseLong(PropertyUtil
-                .getProperty(IDLE_TIMEOUT_KEY, PropertyNames.DATABASE)));
+                .getProperty(IDLE_TIMEOUT_KEY, Constants.PropertyName.DATABASE)));
         HIKARI_CONFIG.setMaximumPoolSize(Integer.parseInt(PropertyUtil
-                .getProperty(POOL_SIZE_KEY, PropertyNames.DATABASE)));
+                .getProperty(POOL_SIZE_KEY, Constants.PropertyName.DATABASE)));
         HIKARI_CONFIG.addDataSourceProperty(CACHE_PREP_STMTS, PropertyUtil
-                .getProperty(CACHE_PREP_STMTS, PropertyNames.DATABASE));
+                .getProperty(CACHE_PREP_STMTS, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.addDataSourceProperty(PREP_STMT_CACHE_SIZE, PropertyUtil
-                .getProperty(PREP_STMT_CACHE_SIZE, PropertyNames.DATABASE));
+                .getProperty(PREP_STMT_CACHE_SIZE, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.addDataSourceProperty(PREP_STMT_CACHE_SQL_LIMIT, PropertyUtil
-                .getProperty(PREP_STMT_CACHE_SQL_LIMIT, PropertyNames.DATABASE));
-        HIKARI_CONFIG.setDriverClassName(PropertyUtil.getProperty(DRIVER_KEY, PropertyNames.DATABASE));
+                .getProperty(PREP_STMT_CACHE_SQL_LIMIT, Constants.PropertyName.DATABASE));
+        HIKARI_CONFIG.setDriverClassName(PropertyUtil.getProperty(DRIVER_KEY, Constants.PropertyName.DATABASE));
     }
 
 
