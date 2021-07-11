@@ -11,7 +11,8 @@ import javax.sql.DataSource;
 @UtilityClass
 public class DataSourceFactory {
 
-    private static final String URL_KEY = "db.url";
+    private static final String MAIN_URL_KEY = "db.url";
+    private static final String TEST_URL_KEY = "db.urlTest";
     private static final String NAME_KEY = "db.userName";
     private static final String PASSWORD_KEY = "db.password";
     private static final String CACHE_PREP_STMTS = "db.cachePrepStmts";
@@ -27,13 +28,18 @@ public class DataSourceFactory {
         init();
     }
 
-    public static DataSource getDataSource() {
+    public static DataSource getTestDataSource() {
+        HIKARI_CONFIG.setJdbcUrl(PropertyUtil.getProperty(TEST_URL_KEY,Constants.PropertyName.DATABASE));
+        return new HikariDataSource(HIKARI_CONFIG);
+    }
+
+    public static DataSource getMainDataSource() {
         return new HikariDataSource(HIKARI_CONFIG);
     }
 
     private static void init() {
         HIKARI_CONFIG.setJdbcUrl(PropertyUtil
-                .getProperty(URL_KEY, Constants.PropertyName.DATABASE));
+                .getProperty(MAIN_URL_KEY, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.setUsername(PropertyUtil
                 .getProperty(NAME_KEY, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.setPassword(PropertyUtil
