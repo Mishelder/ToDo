@@ -1,6 +1,8 @@
 package com.miaskor.dao;
 
 import com.miaskor.database.ConnectionManager;
+import com.miaskor.database.MainConnectionManager;
+import com.miaskor.database.TestConnectionManager;
 import com.miaskor.entity.Task;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.*;
 public class TaskDaoImpl implements TaskDao<Integer, Task> {
 
     private static final TaskDaoImpl INSTANCE = new TaskDaoImpl();
+    private static ConnectionManager connectionManager = MainConnectionManager.getInstance();
 
     private static final String CREATE_TASK = """
             INSERT INTO to_do_list_repository.public.task
@@ -53,6 +56,11 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     public static TaskDaoImpl getInstance() {
         return INSTANCE;
     }
+    public static TaskDaoImpl getInstance(boolean isTest) {
+        if(isTest)
+            connectionManager = TestConnectionManager.getInstance();
+        return INSTANCE;
+    }
 
     /*
      * clientDao.read(resultSet.getObject(2,Integer.class)).get()
@@ -64,7 +72,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @SneakyThrows
     public List<Task> findAll() {
         List<Task> tasks = new ArrayList<>();
-        try (var connection = ConnectionManager.getConnection();
+        try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_ALL_TASK)) {
             var resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -77,7 +85,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @Override
     @SneakyThrows
     public Task create(Task object) {
-        try (var connection = ConnectionManager.getConnection();
+        try (var connection = connectionManager.getConnection();
              var statement = connection.prepareStatement(CREATE_TASK,PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setObject(1, object.getClientId());
             statement.setObject(2, object.getTaskName());
@@ -104,7 +112,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @SneakyThrows
     public Optional<Task> read(Integer index) {
         Task task = null;
-        try (var connection = ConnectionManager.getConnection();
+        try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_TASK)) {
             preparedStatement.setInt(1, index);
             var resultSet = preparedStatement.executeQuery();
@@ -119,7 +127,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @SneakyThrows
     public List<Task> readByDate(LocalDate day,Integer clientIndex) {
         List<Task> tasks = new ArrayList<>();
-        try (var connection = ConnectionManager.getConnection();
+        try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_TASK_BY_DATE)) {
             preparedStatement.setDate(1, Date.valueOf(day));
             preparedStatement.setInt(2, clientIndex);
@@ -147,7 +155,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     @Override
     @SneakyThrows
     public void updateTaskDone(Task task) {
-        try (var connection = ConnectionManager.getConnection();
+        try (var connection = connectionManager.getConnection();
              var statement = connection.prepareStatement(UPDATE_DONE_TASK)) {
             statement.setBoolean(1,task.getDone());
             statement.setInt(2,task.getId());
@@ -157,19 +165,19 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
 
     @Override
     @SneakyThrows
-    public void update(Task task) {
-        try (var connection = ConnectionManager.getConnection();
+    public boolean update(Task task) {
+        try (var connection = connectionManager.getConnection();
              var statement = connection.prepareStatement(UPDATE_TASK)) {
             statement.setString(1,task.getTaskName());
             statement.setInt(2,task.getId());
-            statement.execute();
+            return statement.executeUpdate()>0;
         }
     }
 
     @Override
     @SneakyThrows
     public boolean delete(Integer index) {
-        try (var connection = ConnectionManager.getConnection();
+        try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(DELETE_TASK)) {
             preparedStatement.setInt(1, index);
             return preparedStatement.execute();
