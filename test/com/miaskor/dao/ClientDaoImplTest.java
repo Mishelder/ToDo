@@ -41,7 +41,7 @@ class ClientDaoImplTest {
     @Nested
     class Create {
         @Test
-        void should_ReturnClientWithId_When_SaveClient() {
+        void should_ReturnClientWithId_When_CreateClient() {
             //given
 
             Client expected = Client.builder()
@@ -64,13 +64,13 @@ class ClientDaoImplTest {
         @Test
         void should_ReturnException_When_ClientIsExist() {
             //given
-            Client expected = Client.builder()
+            Client client = Client.builder()
                     .email("example1@mail.com")
                     .login("killer888")
                     .password("qwerty")
                     .build();
             //when
-            Executable executable = () -> clientDao.create(expected);
+            Executable executable = () -> clientDao.create(client);
             //then
             assertThrows(SQLException.class, executable);
         }
@@ -109,41 +109,10 @@ class ClientDaoImplTest {
             //then
             assertTrue(actual.isEmpty());
         }
+    }
 
-        @Test
-        @SuppressWarnings("all")
-        void should_ReturnClientByEmail_When_ClientIsExist(){
-            //given
-            int index = 3;
-            Client expected = Client.builder()
-                    .id(index)
-                    .email("example3@mail.com")
-                    .login("HellenGeller")
-                    .password("4321")
-                    .build();
-            //when
-            var actual = clientDao.readByEmail(expected.getEmail()).get();
-            //then
-            assertAll(
-                    () -> assertEquals(expected.getLogin(), actual.getLogin()),
-                    () -> assertEquals(expected.getEmail(), actual.getEmail()),
-                    () -> assertEquals(expected.getPassword(), actual.getPassword()),
-                    () -> assertNotNull(actual.getId())
-            );
-        }
-
-        @Test
-        void should_ReturnClientByEmail_When_ClientIsNotExist(){
-            //given
-            Client expected = Client.builder()
-                    .email("notExistEmail")
-                    .build();
-            //when
-            var actual = clientDao.readByEmail(expected.getEmail());
-            //then
-            assertTrue(actual.isEmpty());
-        }
-
+    @Nested
+    class ReadByLogin{
         @Test
         @SuppressWarnings("all")
         void should_ReturnClientByLogin_When_ClientIsExist(){
@@ -179,6 +148,42 @@ class ClientDaoImplTest {
         }
     }
 
+    @Nested
+    class ReadByEmail{
+        @Test
+        @SuppressWarnings("all")
+        void should_ReturnClientByEmail_When_ClientIsExist(){
+            //given
+            int index = 3;
+            Client expected = Client.builder()
+                    .id(index)
+                    .email("example3@mail.com")
+                    .login("HellenGeller")
+                    .password("4321")
+                    .build();
+            //when
+            var actual = clientDao.readByEmail(expected.getEmail()).get();
+            //then
+            assertAll(
+                    () -> assertEquals(expected.getLogin(), actual.getLogin()),
+                    () -> assertEquals(expected.getEmail(), actual.getEmail()),
+                    () -> assertEquals(expected.getPassword(), actual.getPassword()),
+                    () -> assertNotNull(actual.getId())
+            );
+        }
+
+        @Test
+        void should_ReturnClientByEmail_When_ClientIsNotExist(){
+            //given
+            Client expected = Client.builder()
+                    .email("notExistEmail")
+                    .build();
+            //when
+            var actual = clientDao.readByEmail(expected.getEmail());
+            //then
+            assertTrue(actual.isEmpty());
+        }
+    }
 
     @Nested
     class Update {
