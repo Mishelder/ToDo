@@ -29,6 +29,6 @@ public class SaveTaskServlet extends HttpServlet {
         saveTaskDto.setClientId(client.getId());
         var task = saveTaskService.saveTask(saveTaskDto);
         resp.setContentType("application/json");
-        resp.getWriter().write(taskIdToJsonMapper.map(task));
+        resp.getWriter().write(taskIdToJsonMapper.map(task.getId()));
     }
 }
