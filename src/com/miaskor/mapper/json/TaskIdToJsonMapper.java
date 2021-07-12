@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class TaskIdToJsonMapper implements Mapper<Task,String> {
+public class TaskIdToJsonMapper implements Mapper<Integer,String> {
     private static final TaskIdToJsonMapper INSTANCE = new TaskIdToJsonMapper();
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
     @SneakyThrows
     @Override
-    public String map(Task from) {
-        return jsonMapper.writeValueAsString(from.getId());
+    public String map(Integer taskId) {
+        return jsonMapper.writeValueAsString(taskId);
     }
 
     public static TaskIdToJsonMapper getInstance(){
