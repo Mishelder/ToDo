@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateService {
     private static final UpdateService INSTANCE = new UpdateService();
-    private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
+    private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance(false);
     private final UpdateTaskDoneDtoToTaskMapper updateTaskDoneDtoToTaskMapper =
             UpdateTaskDoneDtoToTaskMapper.getInstance();
     private final UpdateTaskDtoToTaskMapper updateTaskDtoToTaskMapper =

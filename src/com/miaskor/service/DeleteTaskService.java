@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DeleteTaskService {
     private static final DeleteTaskService INSTANCE = new DeleteTaskService();
-    private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
+    private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance(false);
 
     public void deleteTask(DeleteTaskDto deleteTaskDto){
         int deleteTaskId = deleteTaskDto.getId();

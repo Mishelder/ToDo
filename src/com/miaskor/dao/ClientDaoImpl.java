@@ -38,9 +38,6 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
     private static final String READ_BY_EMAIL = """
             SELECT id,login,email,password FROM client WHERE email = ?""";
 
-    public static ClientDaoImpl getInstance() {
-        return INSTANCE;
-    }
     public static ClientDaoImpl getInstance(boolean isTest) {
         if(isTest)
             connectionManager = TestConnectionManager.getInstance();

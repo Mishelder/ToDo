@@ -17,7 +17,7 @@ public class LoginClientService {
     private static final LoginClientService INSTANCE = new LoginClientService();
     private final LoginClientValidator clientValidator = LoginClientValidator.getInstance();
     private final LoginClientMapper clientMapper = LoginClientMapper.getInstance();
-    private final ClientDaoImpl clientDao = ClientDaoImpl.getInstance();
+    private final ClientDaoImpl clientDao = ClientDaoImpl.getInstance(false);
 
     /*
     * client.get() won't throw NoSuchElementException because

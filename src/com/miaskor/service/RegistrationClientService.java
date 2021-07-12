@@ -18,7 +18,7 @@ public class RegistrationClientService {
             RegistrationClientValidator.getInstance();
     private final RegistrationClientMapper registrationClientMapper = 
             RegistrationClientMapper.getInstance();
-    private final ClientDaoImpl clientDao = ClientDaoImpl.getInstance();
+    private final ClientDaoImpl clientDao = ClientDaoImpl.getInstance(false);
 
     public Client registerClient(RegistrationClientDto registrationClientDto) {
         ValidationResult validationResult = registrationClientValidator.isValid(registrationClientDto);

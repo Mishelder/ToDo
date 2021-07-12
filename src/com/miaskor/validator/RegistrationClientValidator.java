@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class RegistrationClientValidator implements Validator<RegistrationClientDto>{
 
     private static final RegistrationClientValidator INSTANCE = new RegistrationClientValidator();
-    private final ClientDaoImpl clientDao = ClientDaoImpl.getInstance();
+    private final ClientDaoImpl clientDao = ClientDaoImpl.getInstance(false);
 
     @Override
     public ValidationResult isValid(RegistrationClientDto object) {

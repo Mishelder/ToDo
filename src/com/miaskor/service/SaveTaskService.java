@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SaveTaskService {
     private static final SaveTaskService INSTANCE = new SaveTaskService();
-    private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
+    private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance(false);
     private final SaveTaskDtoToTaskMapper mapper = SaveTaskDtoToTaskMapper.getInstance();
 
     public Task saveTask(SaveTaskDto saveTaskDto){

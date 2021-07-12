@@ -16,7 +16,7 @@ public class FetchTaskService {
     private static final FetchTaskService INSTANCE = new FetchTaskService();
     private final FetchTaskMapper fetchTaskMapper = FetchTaskMapper.getInstance();
     private final FetchTasksMapper fetchTasksMapper = FetchTasksMapper.getInstance();
-    private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
+    private final TaskDaoImpl taskDao = TaskDaoImpl.getInstance(false);
 
     public List<FetchTaskDto> getTask(LocalDate day,Integer clientIndex){
         var tasks = taskDao.readByDate(day, clientIndex);

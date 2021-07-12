@@ -12,7 +12,7 @@ import java.util.Optional;
 public class LoginClientValidator implements Validator<LoginClientDto>{
 
     private static final LoginClientValidator INSTANCE = new LoginClientValidator();
-    private final ClientDaoImpl clientDaoImpl = ClientDaoImpl.getInstance();
+    private final ClientDaoImpl clientDaoImpl = ClientDaoImpl.getInstance(false);
 
     @Override
     public ValidationResult isValid(LoginClientDto object) {
