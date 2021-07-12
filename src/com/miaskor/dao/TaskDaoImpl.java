@@ -20,42 +20,39 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     private static ConnectionManager connectionManager = MainConnectionManager.getInstance();
 
     private static final String CREATE_TASK = """
-            INSERT INTO to_do_list_repository.public.task
+            INSERT INTO task
             (client_id, task_name, done, date) VALUES (?,?,?,?)
             """;
     private static final String READ_TASK = """
             SELECT id, client_id, task_name, done, date
-            FROM to_do_list_repository.public.task
+            FROM task
             WHERE id = ?
             """;
     private static final String READ_TASK_BY_DATE = """
             SELECT id, client_id, task_name, done, date
-            FROM to_do_list_repository.public.task
+            FROM task
             WHERE date = ? AND client_id = ? ORDER BY id
             """;
     private static final String UPDATE_TASK = """
-            UPDATE to_do_list_repository.public.task
+            UPDATE task
             SET task_name=?
             WHERE id=?
             """;
     private static final String UPDATE_DONE_TASK = """
-            UPDATE to_do_list_repository.public.task
+            UPDATE task
             SET done=?
             WHERE id=?
             """;
     private static final String DELETE_TASK = """
-            DELETE FROM to_do_list_repository.public.task
+            DELETE FROM task
             WHERE id=?
             """;
     private static final String READ_ALL_TASK = """
             SELECT id, client_id, task_name, done, date
-            FROM to_do_list_repository.public.task
+            FROM task ORDER BY id
             """;
 
 
-    public static TaskDaoImpl getInstance() {
-        return INSTANCE;
-    }
     public static TaskDaoImpl getInstance(boolean isTest) {
         if(isTest)
             connectionManager = TestConnectionManager.getInstance();
@@ -141,7 +138,13 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
 
     @Override
     @SneakyThrows
+    /*
+        from - start day included
+        to - end day included
+     */
     public Map<LocalDate, List<Task>> readAllTaskByPeriod(LocalDate from, LocalDate to,Integer clientIndex) {
+        if(to.toString().compareTo(from.toString())<0)
+            throw new IllegalArgumentException("Date from cannot be more than date to");
         Map<LocalDate, List<Task>> tasks = new HashMap<>();
         while (!from.equals(to.plusDays(1))) {
             var tasksByDay = readByDate(from, clientIndex);
@@ -154,12 +157,12 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
 
     @Override
     @SneakyThrows
-    public void updateTaskDone(Task task) {
+    public boolean updateTaskDone(Task task) {
         try (var connection = connectionManager.getConnection();
              var statement = connection.prepareStatement(UPDATE_DONE_TASK)) {
             statement.setBoolean(1,task.getDone());
             statement.setInt(2,task.getId());
-            statement.execute();
+            return statement.executeUpdate()>0;
         }
     }
 
@@ -180,7 +183,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(DELETE_TASK)) {
             preparedStatement.setInt(1, index);
-            return preparedStatement.execute();
+            return preparedStatement.executeUpdate()>0;
         }
     }
 
