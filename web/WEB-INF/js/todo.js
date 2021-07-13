@@ -86,21 +86,7 @@ function deleteTask(id) {
     }).then();
 }
 
-function updateDoneTask(id, done) {
-    fetch('/updateDone', {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(
-            {
-                'id': id,
-                'isDone': done
-            }),
-    }).then();
-}
-
-function updateTask(id, value) {
+function updateTask(id, value,done) {
     fetch('/update', {
         method: 'POST',
         headers: {
@@ -109,7 +95,8 @@ function updateTask(id, value) {
         body: JSON.stringify(
             {
                 'id': id,
-                'task': value
+                'task': value,
+                'isDone': done
             }),
     }).then();
 }
@@ -211,8 +198,8 @@ function createAlternationDiv(taskDiv) {
         alternateImage = document.createElement('img'),
         divForDeleteImage = new Div('', 'delete_image').renderAppend(taskDiv),
         divForAlternateImage = new Div('', 'alternate_image').renderAppend(taskDiv);
-    deleteImage.src = '/css?fileName=recycle&extension=png&folder=img';
-    alternateImage.src = '/css?fileName=pencil&extension=png&folder=img';
+    deleteImage.src = '/fileLoader?fileName=recycle&extension=png&folder=img';
+    alternateImage.src = '/fileLoader?fileName=pencil&extension=png&folder=img';
     divForDeleteImage.addEventListener('click', () => {
         taskDiv.remove();
         deleteTask(taskDiv.id);
@@ -228,7 +215,7 @@ function createAlternationDiv(taskDiv) {
                 deleteTask(taskDiv.id);
             }else{
                 input.disabled = true;
-                updateTask(taskDiv.id,input.value);
+                updateTask(taskDiv.id,input.value,input.classList.contains('is_done'));
             }
         };
     });
@@ -242,7 +229,7 @@ function createAlternationDiv(taskDiv) {
 function changeDoneStatusOnClick(taskValueDiv,inputElement,taskDiv){
     taskValueDiv.addEventListener('click', () => {
         if (inputElement.value.length !== 0) {
-            updateDoneTask(taskDiv.id,inputElement.classList.toggle('is_done'));
+            updateTask(taskDiv.id,inputElement.value,inputElement.classList.toggle('is_done'));
         }
     });
 }
