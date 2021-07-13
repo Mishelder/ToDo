@@ -13,6 +13,7 @@ public class UpdateTaskDtoToTaskMapper implements Mapper<UpdateTaskDto, Task> {
     public Task map(UpdateTaskDto from) {
         return Task.builder().id(from.getId())
                 .taskName(from.getTask())
+                .done(from.getIsDone())
                 .build();
     }
 
