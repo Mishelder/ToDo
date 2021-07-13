@@ -294,34 +294,6 @@ class TaskDaoImplTest {
         }
     }
 
-    @Nested
-    class UpdateTaskDone{
-        @Test
-        void should_ReturnTrue_When_DoneStatusIsChanged(){
-            //given
-            Task task = Task.builder()
-                    .id(8)
-                    .done(false)
-                    .build();
-            //when
-            var actual = taskDao.updateTaskDone(task);
-            //then
-            assertTrue(actual);
-        }
-
-        @Test
-        void should_ReturnFalse_When_TaskIsNotExist(){
-            //given
-            Task task = Task.builder()
-                    .id(-1)
-                    .done(false)
-                    .build();
-            //when
-            var actual = taskDao.updateTaskDone(task);
-            //then
-            assertFalse(actual);
-        }
-    }
 
     @Nested
     class Update{
@@ -330,6 +302,7 @@ class TaskDaoImplTest {
             //given
             Task task = Task.builder()
                     .id(8)
+                    .done(false)
                     .taskName("buy the sugar")
                     .build();
             //when
