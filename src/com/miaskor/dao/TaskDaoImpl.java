@@ -35,12 +35,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             """;
     private static final String UPDATE_TASK = """
             UPDATE task
-            SET task_name=?
-            WHERE id=?
-            """;
-    private static final String UPDATE_DONE_TASK = """
-            UPDATE task
-            SET done=?
+            SET task_name=?, done=?
             WHERE id=?
             """;
     private static final String DELETE_TASK = """
@@ -155,16 +150,6 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
         return tasks;
     }
 
-    @Override
-    @SneakyThrows
-    public boolean updateTaskDone(Task task) {
-        try (var connection = connectionManager.getConnection();
-             var statement = connection.prepareStatement(UPDATE_DONE_TASK)) {
-            statement.setBoolean(1,task.getDone());
-            statement.setInt(2,task.getId());
-            return statement.executeUpdate()>0;
-        }
-    }
 
     @Override
     @SneakyThrows
@@ -172,7 +157,8 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
         try (var connection = connectionManager.getConnection();
              var statement = connection.prepareStatement(UPDATE_TASK)) {
             statement.setString(1,task.getTaskName());
-            statement.setInt(2,task.getId());
+            statement.setBoolean(2,task.getDone());
+            statement.setInt(3,task.getId());
             return statement.executeUpdate()>0;
         }
     }
