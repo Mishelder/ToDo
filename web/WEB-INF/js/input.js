@@ -1,12 +1,13 @@
 class InputElement {
     constructor(typeValue, id, value,
-                nameValue, placeHolder, ...style) {
+                nameValue, placeHolder,required, ...style) {
         this.typeValue = typeValue;
         this.id = id;
         this.style = style[0]===''?'':style;
         this.value = value;
         this.nameValue = nameValue;
         this.placeHolder = placeHolder;
+        this.required = required;
     }
 
     init() {
@@ -23,6 +24,8 @@ class InputElement {
         input.name = this.nameValue;
         if(this.placeHolder!=='')
         input.placeholder = this.placeHolder;
+        if(this.required!=='')
+            input.required =this.required;
         return input;
     }
 

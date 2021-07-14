@@ -183,7 +183,7 @@ function createDivForExistTask(date, item) {
     let tasksDiv = document.getElementById(date).getElementsByClassName('tasks')[0],
         taskDiv = new Div(item['id'], 'task').renderAppend(tasksDiv),
         taskValueDiv = new Div('', 'value_task').renderAppend(taskDiv),
-        task = new InputElement('text', '', item['taskName'], '', '', '');
+        task = new InputElement('text', '', item['taskName'], '', '',false, '');
     let inputElement = task.renderAppend(taskValueDiv);
     inputElement.disabled = true;
     if (item['done'] === 'checked')
@@ -238,7 +238,7 @@ function createDivForTask(date) {
     let tasksDiv = document.getElementById(date).getElementsByClassName('tasks')[0],
         taskDiv = new Div('', 'task').renderAppend(tasksDiv),
         taskValueDiv = new Div('', 'value_task').renderAppend(taskDiv),
-        task = new InputElement('text', '', '', '', '', '');
+        task = new InputElement('text', '', '', '', '',false, '');
     let inputElement = task.renderAppend(taskValueDiv);
     changeDoneStatusOnClick(taskValueDiv,inputElement,taskDiv);
     inputElement.onblur = () => {
