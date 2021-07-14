@@ -5,7 +5,7 @@ const headerSignUp = document.getElementById("signUp");
 const form = document.getElementById("form");
 const login = new InputElement("text","login","","login","login",true,"fadeIn", "second");
 const password = new InputElement('password', 'password', "", "password", 'password',true, 'fadeIn', 'third');
-const email = new InputElement('email', 'email', "", 'email', 'email', true,'fadeIn', 'first', 'hidden');
+const email = new InputElement('email', 'email', "", 'email', 'email', false,'fadeIn', 'first', 'hidden');
 const submitInput = new InputElement('submit', 'submit', 'Sign In', "", "", false,'fadeIn', 'fourth');
 const loginError = new Paragraph('loginError', '', 'red', 'hidden');
 const emailError = new Paragraph('emailError', '', 'red', 'hidden');
@@ -19,22 +19,20 @@ password.renderAppend(form);
 passwordError.renderAppend(form)
 submitInput.renderAppend(form);
 
-const submitElement = document.getElementById('submit');
-
 function showEmail() {
     form.setAttribute('action', '/registration');
-    const inputEmail = document.getElementById('email');
+    const inputEmail = email.inputElement;
     inputEmail.classList.remove('hidden');
     inputEmail.required = true;
-    submitElement.value = 'Sign up';
+    submitInput.inputElement.value = 'Sign up';
 }
 
 function hideEmail() {
     form.setAttribute('action', '/login');
-    const inputEmail = document.getElementById('email');
+    const inputEmail =  email.inputElement;
     inputEmail.classList.add('hidden');
     inputEmail.required = false;
-    submitElement.value = 'Sign in';
+    submitInput.inputElement.value = 'Sign in';
 }
 
 function changeActiveStatusClass(listActive, listNonActive) {
@@ -133,12 +131,9 @@ form.addEventListener('submit', (e) => {
 });
 
 document.addEventListener('click',()=>{
-    const emailError = document.getElementById("emailError");
-    const loginError = document.getElementById("loginError");
-    const passwordError = document.getElementById("passwordError");
-    isParagraphHidden(emailError);
-    isParagraphHidden(loginError);
-    isParagraphHidden(passwordError);
+    isParagraphHidden(emailError.pElement);
+    isParagraphHidden(loginError.pElement);
+    isParagraphHidden(passwordError.pElement);
 
     function isParagraphHidden(element){
         if(!element.classList.contains('hidden')){

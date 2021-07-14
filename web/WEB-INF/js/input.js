@@ -1,4 +1,7 @@
 class InputElement {
+
+    #inputElement;
+
     constructor(typeValue, id, value,
                 nameValue, placeHolder,required, ...style) {
         this.typeValue = typeValue;
@@ -8,6 +11,7 @@ class InputElement {
         this.nameValue = nameValue;
         this.placeHolder = placeHolder;
         this.required = required;
+        this.init();
     }
 
     init() {
@@ -26,18 +30,18 @@ class InputElement {
         input.placeholder = this.placeHolder;
         if(this.required!=='')
             input.required =this.required;
-        return input;
+        this.#inputElement = input;
     }
 
     renderAppend(parentElem) {
-        let tempInput = this.init()
-        parentElem.append(tempInput);
-        return tempInput;
+        parentElem.append(this.#inputElement);
     }
 
     renderPrepend(parentElem) {
-        let tempInput = this.init()
-        parentElem.prepend(tempInput);
-        return tempInput;
+        parentElem.prepend(this.#inputElement);
+    }
+
+    get inputElement(){
+        return this.#inputElement;
     }
 }

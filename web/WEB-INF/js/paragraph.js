@@ -1,8 +1,12 @@
 class Paragraph {
+
+    #pElement;
+
     constructor(id, textContent, ...style) {
         this.id = id;
         this.textContent = textContent;
         this.style = style;
+        this.init();
     }
 
     init() {
@@ -10,14 +14,18 @@ class Paragraph {
         p.id = this.id;
         p.textContent = this.textContent;
         this.style.forEach(item => p.classList.add(item));
-        return p;
+        this.#pElement = p;
     }
 
     renderAppend(parentElem) {
-        parentElem.append(this.init());
+        parentElem.append(this.#pElement);
     }
 
     renderPrepend(parentElem) {
-        parentElem.prepend(this.init());
+        parentElem.prepend(this.#pElement);
+    }
+
+    get pElement(){
+        return this.#pElement;
     }
 }

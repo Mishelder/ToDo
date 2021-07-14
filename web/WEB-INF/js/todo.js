@@ -184,11 +184,11 @@ function createDivForExistTask(date, item) {
         taskDiv = new Div(item['id'], 'task').renderAppend(tasksDiv),
         taskValueDiv = new Div('', 'value_task').renderAppend(taskDiv),
         task = new InputElement('text', '', item['taskName'], '', '',false, '');
-    let inputElement = task.renderAppend(taskValueDiv);
-    inputElement.disabled = true;
+    task.renderAppend(taskValueDiv);
+    task.inputElement.disabled = true;
     if (item['done'] === 'checked')
-        inputElement.classList.add('is_done');
-    changeDoneStatusOnClick(taskValueDiv,inputElement,taskDiv);
+        task.inputElement.classList.add('is_done');
+    changeDoneStatusOnClick(taskValueDiv,task.inputElement,taskDiv);
     createAlternationDiv(taskDiv);
 }
 
@@ -239,23 +239,23 @@ function createDivForTask(date) {
         taskDiv = new Div('', 'task').renderAppend(tasksDiv),
         taskValueDiv = new Div('', 'value_task').renderAppend(taskDiv),
         task = new InputElement('text', '', '', '', '',false, '');
-    let inputElement = task.renderAppend(taskValueDiv);
-    changeDoneStatusOnClick(taskValueDiv,inputElement,taskDiv);
-    inputElement.onblur = () => {
+    task.renderAppend(taskValueDiv);
+    changeDoneStatusOnClick(taskValueDiv,task.inputElement,taskDiv);
+    task.inputElement.onblur = () => {
         save();
     };
-    inputElement.addEventListener('keydown',(event)=>{
+    task.inputElement.addEventListener('keydown',(event)=>{
        if(event.key === "Enter"){
-           inputElement.onblur = ()=>{};
+           task.inputElement.onblur = ()=>{};
            save();
        }
     });
-    inputElement.focus();
+    task.inputElement.focus();
 
     function save(){
-        if (inputElement.value.length !== 0) {
-            inputElement.disabled = true;
-            saveTask(date, inputElement, taskDiv);
+        if (task.inputElement.value.length !== 0) {
+            task.inputElement.disabled = true;
+            saveTask(date, task.inputElement, taskDiv);
         }
     }
 }
