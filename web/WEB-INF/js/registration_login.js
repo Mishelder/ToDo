@@ -3,10 +3,10 @@
 const headerSingIn = document.getElementById("signIn");
 const headerSignUp = document.getElementById("signUp");
 const form = document.getElementById("form");
-const login = new InputElement("text","login","","login","login","fadeIn", "second");
-const password = new InputElement('password', 'password', "", "password", 'password', 'fadeIn', 'third');
-const email = new InputElement('email', 'email', "", 'email', 'email', 'fadeIn', 'first', 'hidden');
-const submitInput = new InputElement('submit', 'submit', 'Sign In', "", "", 'fadeIn', 'fourth');
+const login = new InputElement("text","login","","login","login",true,"fadeIn", "second");
+const password = new InputElement('password', 'password', "", "password", 'password',true, 'fadeIn', 'third');
+const email = new InputElement('email', 'email', "", 'email', 'email', true,'fadeIn', 'first', 'hidden');
+const submitInput = new InputElement('submit', 'submit', 'Sign In', "", "", false,'fadeIn', 'fourth');
 const loginError = new Paragraph('loginError', '', 'red', 'hidden');
 const emailError = new Paragraph('emailError', '', 'red', 'hidden');
 const passwordError = new Paragraph('passwordError', '', 'red', 'hidden');
@@ -23,13 +23,17 @@ const submitElement = document.getElementById('submit');
 
 function showEmail() {
     form.setAttribute('action', '/registration');
-    document.getElementById('email').classList.remove('hidden');
+    const inputEmail = document.getElementById('email');
+    inputEmail.classList.remove('hidden');
+    inputEmail.required = true;
     submitElement.value = 'Sign up';
 }
 
 function hideEmail() {
     form.setAttribute('action', '/login');
-    document.getElementById('email').classList.add('hidden');
+    const inputEmail = document.getElementById('email');
+    inputEmail.classList.add('hidden');
+    inputEmail.required = false;
     submitElement.value = 'Sign in';
 }
 
