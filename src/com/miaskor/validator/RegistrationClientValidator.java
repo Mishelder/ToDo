@@ -5,6 +5,8 @@ import com.miaskor.dto.RegistrationClientDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import static com.miaskor.util.ValidationVariable.*;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegistrationClientValidator implements Validator<RegistrationClientDto>{
 
@@ -18,19 +20,19 @@ public class RegistrationClientValidator implements Validator<RegistrationClient
         String email = object.getEmail();
         String password = object.getPassword();
 
-        if(login.length()<3){
-            validationResult.add(new ErrorMessage("login","login might be > 2"));
+        if(login.length()<MIN_LENGTH_LOGIN){
+            validationResult.add(new ErrorMessage("login","login might be longer"));
         }else if(clientDao.readByLogin(login).isPresent()){
-            validationResult.add(new ErrorMessage("login","login already exist"));
-        }else if(login.length()>128){
+            validationResult.add(new ErrorMessage("login","login is already exist"));
+        }else if(login.length()>MAX_LENGTH_LOGIN){
             validationResult.add(new ErrorMessage("login","login is invalid"));
         }
         if(clientDao.readByEmail(email).isPresent()){
             validationResult.add(new ErrorMessage("email","email is already exist"));
-        }else if(email.length()>128){
+        }else if(email.length()>MAX_LENGTH_EMAIL){
             validationResult.add(new ErrorMessage("email","email is invalid"));
         }
-        if(password.length()>32){
+        if(password.length()>MAX_LENGTH_PASSWORD){
             validationResult.add(new ErrorMessage("password","password is invalid"));
         }
         return validationResult;

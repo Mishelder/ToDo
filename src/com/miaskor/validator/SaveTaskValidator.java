@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.miaskor.util.ValidationVariable.MAX_LENGTH_TASK;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SaveTaskValidator implements Validator<List<SaveTaskDto>> {
 
@@ -18,7 +20,7 @@ public class SaveTaskValidator implements Validator<List<SaveTaskDto>> {
         List<String> listOfTasks = saveTaskDtoList.stream().map(SaveTaskDto::getTask)
                 .collect(Collectors.toList());
         for(int index = 0;index<listOfTasks.size();index++){
-            if(listOfTasks.get(index).length()>512){
+            if(listOfTasks.get(index).length()>MAX_LENGTH_TASK){
                 validationResult.add(new ErrorMessage("task","task "+(index+1)+" must be less"));
                 break;
             }

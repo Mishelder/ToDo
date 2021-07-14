@@ -7,11 +7,13 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.Optional;
+import static com.miaskor.util.ValidationVariable.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginClientValidator implements Validator<LoginClientDto>{
 
     private static final LoginClientValidator INSTANCE = new LoginClientValidator();
+
     private final ClientDaoImpl clientDaoImpl = ClientDaoImpl.getInstance(false);
 
     @Override
@@ -20,11 +22,11 @@ public class LoginClientValidator implements Validator<LoginClientDto>{
         String login = object.getLogin();
         String password = object.getPassword();
         Optional<Client> client = clientDaoImpl.readByLogin(login);
-        if(login.length()>128){
+        if(login.length()> MAX_LENGTH_LOGIN){
             validationResult.add(new ErrorMessage("login","login or password is invalid"));
         }else if(client.isEmpty()){
             validationResult.add(new ErrorMessage("login","login or password is invalid"));
-        }else if(password.length()>32){
+        }else if(password.length()> MAX_LENGTH_PASSWORD){
             validationResult.add(new ErrorMessage("password","password is invalid"));
         }else if(!(client.get().getPassword().equals(password))){
             validationResult.add(new ErrorMessage("password","password is invalid"));
