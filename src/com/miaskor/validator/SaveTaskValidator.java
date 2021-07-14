@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import static com.miaskor.util.ValidationVariable.MAX_LENGTH_TASK;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Deprecated(since = "since add javascript")
 public class SaveTaskValidator implements Validator<List<SaveTaskDto>> {
 
     private static final SaveTaskValidator INSTANCE = new SaveTaskValidator();
