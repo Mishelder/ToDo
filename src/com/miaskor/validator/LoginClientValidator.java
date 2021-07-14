@@ -13,25 +13,39 @@ import static com.miaskor.util.ValidationVariable.*;
 public class LoginClientValidator implements Validator<LoginClientDto>{
 
     private static final LoginClientValidator INSTANCE = new LoginClientValidator();
-
     private final ClientDaoImpl clientDaoImpl = ClientDaoImpl.getInstance(false);
 
     @Override
     public ValidationResult isValid(LoginClientDto object) {
         ValidationResult validationResult = new ValidationResult();
-        String login = object.getLogin();
-        String password = object.getPassword();
-        Optional<Client> client = clientDaoImpl.readByLogin(login);
-        if(login.length()> MAX_LENGTH_LOGIN){
+        String givenLogin = object.getLogin();
+        String givenPassword = object.getPassword();
+        boolean isNotPass = checkFields(validationResult, givenLogin, givenPassword);
+        if(isNotPass)
+            return validationResult;
+        checkFieldsAtDB(validationResult, givenLogin, givenPassword);
+        return validationResult;
+    }
+
+    private void checkFieldsAtDB(ValidationResult validationResult, String givenLogin, String givenPassword) {
+        Optional<Client> client = clientDaoImpl.readByLogin(givenLogin);
+        if(client.isEmpty()){
             validationResult.add(new ErrorMessage("login","login or password is invalid"));
-        }else if(client.isEmpty()){
-            validationResult.add(new ErrorMessage("login","login or password is invalid"));
-        }else if(password.length()> MAX_LENGTH_PASSWORD){
-            validationResult.add(new ErrorMessage("password","password is invalid"));
-        }else if(!(client.get().getPassword().equals(password))){
+        }else if(!(client.get().getPassword().equals(givenPassword))){
             validationResult.add(new ErrorMessage("password","password is invalid"));
         }
-        return validationResult;
+    }
+
+    private boolean checkFields(ValidationResult validationResult, String givenLogin, String givenPassword) {
+        boolean isNotPass = false;
+        if(givenLogin.length()> MAX_LENGTH_LOGIN){
+            validationResult.add(new ErrorMessage("login","login or password is invalid"));
+            isNotPass = true;
+        }else if(givenPassword.length()> MAX_LENGTH_PASSWORD){
+            validationResult.add(new ErrorMessage("password","password is invalid"));
+            isNotPass = true;
+        }
+        return isNotPass;
     }
 
     public static LoginClientValidator getInstance(){
