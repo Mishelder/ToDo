@@ -1,7 +1,11 @@
 class Div {
+
+    #divElement;
+
     constructor(id, ...style) {
         this.id = id;
         this.style = style === '' ? '' : style;
+        this.init();
     }
 
     init() {
@@ -10,18 +14,18 @@ class Div {
             div.id = this.id;
         if (this.style !== '')
             this.style.forEach(item => div.classList.add(item));
-        return div;
+        this.#divElement = div;
     }
 
     renderAppend(parentElem) {
-        let tempDiv = this.init()
-        parentElem.append(tempDiv);
-        return tempDiv;
+        parentElem.append(this.#divElement);
     }
 
     renderPrepend(parentElem) {
-        let tempDiv = this.init()
-        parentElem.prepend(tempDiv);
-        return tempDiv;
+        parentElem.prepend(this.#divElement);
+    }
+
+    get divElement(){
+        return this.#divElement;
     }
 }

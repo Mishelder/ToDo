@@ -86,7 +86,7 @@ function deleteTask(id) {
     }).then();
 }
 
-function updateTask(id, value,done) {
+function updateTask(id, value, done) {
     fetch('/update', {
         method: 'POST',
         headers: {
@@ -158,17 +158,16 @@ function createToDoDay(date, append) {
         divDate = new Div('', 'date'),
         labelDate = document.createElement("label");
     labelDate.textContent = date.formatToDM();
-    let toDoDayElement;
     if (append) {
-        toDoDayElement = divToDoDay.renderAppend(toDoListDiv);
+        divToDoDay.renderAppend(toDoListDiv);
     } else {
-        toDoDayElement = divToDoDay.renderPrepend(toDoListDiv);
+        divToDoDay.renderPrepend(toDoListDiv);
     }
-    if(date.formatToDMY()===now.formatToDMY())
-        toDoDayElement.classList.add('current_day');
-    let dateElement = divDate.renderAppend(toDoDayElement);
-    dateElement.append(labelDate);
-    divTasks.renderAppend(toDoDayElement);
+    if (date.formatToDMY() === now.formatToDMY())
+        divToDoDay.divElement.classList.add('current_day');
+    divDate.renderAppend(divToDoDay.divElement);
+    divDate.divElement.append(labelDate);
+    divTasks.renderAppend(divToDoDay.divElement);
 }
 
 function initDateRange(dateFrom, dateTo) {
@@ -181,81 +180,89 @@ function initDateRange(dateFrom, dateTo) {
 
 function createDivForExistTask(date, item) {
     let tasksDiv = document.getElementById(date).getElementsByClassName('tasks')[0],
-        taskDiv = new Div(item['id'], 'task').renderAppend(tasksDiv),
-        taskValueDiv = new Div('', 'value_task').renderAppend(taskDiv),
-        task = new InputElement('text', '', item['taskName'], '', '',false, '');
-    task.renderAppend(taskValueDiv);
+        taskDiv = new Div(item['id'], 'task'),
+        taskValueDiv = new Div('', 'value_task'),
+        task = new InputElement('text', '', item['taskName'], '', '', false, '');
+    taskDiv.renderAppend(tasksDiv);
+    taskValueDiv.renderAppend(taskDiv.divElement);
+    task.renderAppend(taskValueDiv.divElement);
     task.inputElement.disabled = true;
     if (item['done'] === 'checked')
         task.inputElement.classList.add('is_done');
-    changeDoneStatusOnClick(taskValueDiv,task.inputElement,taskDiv);
-    createAlternationDiv(taskDiv);
+    changeDoneStatusOnClick(taskValueDiv.divElement, task.inputElement, taskDiv.divElement);
+    createAlternationDiv(taskDiv.divElement);
 }
 
 function createAlternationDiv(taskDiv) {
-    let alternationDiv = new Div('', 'alternation_task', 'hidden').renderAppend(taskDiv),
+    let alternationDiv = new Div('', 'alternation_task', 'hidden'),
         deleteImage = document.createElement('img'),
         alternateImage = document.createElement('img'),
-        divForDeleteImage = new Div('', 'delete_image').renderAppend(taskDiv),
-        divForAlternateImage = new Div('', 'alternate_image').renderAppend(taskDiv);
+        divForDeleteImage = new Div('', 'delete_image'),
+        divForAlternateImage = new Div('', 'alternate_image');
+    alternationDiv.renderAppend(taskDiv);
+    divForDeleteImage.renderAppend(taskDiv);
+    divForAlternateImage.renderAppend(taskDiv);
     deleteImage.src = '/fileLoader?fileName=recycle&extension=png&folder=img';
     alternateImage.src = '/fileLoader?fileName=pencil&extension=png&folder=img';
-    divForDeleteImage.addEventListener('click', () => {
+    divForDeleteImage.divElement.addEventListener('click', () => {
         taskDiv.remove();
         deleteTask(taskDiv.id);
     });
-    divForAlternateImage.addEventListener('click',()=>{
-       let value_task = taskDiv.getElementsByClassName('value_task')[0],
-        input = value_task.getElementsByTagName('input')[0];
-       input.disabled = false;
-       input.focus();
-       input.onblur = () => {
+    divForAlternateImage.divElement.addEventListener('click', () => {
+        let value_task = taskDiv.getElementsByClassName('value_task')[0],
+            input = value_task.getElementsByTagName('input')[0];
+        input.disabled = false;
+        input.focus();
+        input.onblur = () => {
             if (input.value.length === 0) {
                 taskDiv.remove();
                 deleteTask(taskDiv.id);
-            }else{
+            } else {
                 input.disabled = true;
-                updateTask(taskDiv.id,input.value,input.classList.contains('is_done'));
+                updateTask(taskDiv.id, input.value, input.classList.contains('is_done'));
             }
         };
     });
-    divForAlternateImage.append(alternateImage);
-    divForDeleteImage.append(deleteImage);
-    alternationDiv.append(divForDeleteImage);
-    alternationDiv.append(divForAlternateImage);
-    taskDiv.append(alternationDiv);
+    divForAlternateImage.divElement.append(alternateImage);
+    divForDeleteImage.divElement.append(deleteImage);
+    alternationDiv.divElement.append(divForDeleteImage.divElement);
+    alternationDiv.divElement.append(divForAlternateImage.divElement);
+    taskDiv.append(alternationDiv.divElement);
 }
 
-function changeDoneStatusOnClick(taskValueDiv,inputElement,taskDiv){
+function changeDoneStatusOnClick(taskValueDiv, inputElement, taskDiv) {
     taskValueDiv.addEventListener('click', () => {
         if (inputElement.value.length !== 0) {
-            updateTask(taskDiv.id,inputElement.value,inputElement.classList.toggle('is_done'));
+            updateTask(taskDiv.id, inputElement.value, inputElement.classList.toggle('is_done'));
         }
     });
 }
 
 function createDivForTask(date) {
     let tasksDiv = document.getElementById(date).getElementsByClassName('tasks')[0],
-        taskDiv = new Div('', 'task').renderAppend(tasksDiv),
-        taskValueDiv = new Div('', 'value_task').renderAppend(taskDiv),
-        task = new InputElement('text', '', '', '', '',false, '');
-    task.renderAppend(taskValueDiv);
-    changeDoneStatusOnClick(taskValueDiv,task.inputElement,taskDiv);
+        taskDiv = new Div('', 'task'),
+        taskValueDiv = new Div('', 'value_task'),
+        task = new InputElement('text', '', '', '', '', false, '');
+    taskDiv.renderAppend(tasksDiv);
+    taskValueDiv.renderAppend(taskDiv.divElement)
+    task.renderAppend(taskValueDiv.divElement);
+    changeDoneStatusOnClick(taskValueDiv.divElement, task.inputElement, taskDiv.divElement);
     task.inputElement.onblur = () => {
         save();
     };
-    task.inputElement.addEventListener('keydown',(event)=>{
-       if(event.key === "Enter"){
-           task.inputElement.onblur = ()=>{};
-           save();
-       }
+    task.inputElement.addEventListener('keydown', (event) => {
+        if (event.key === "Enter") {
+            task.inputElement.onblur = () => {
+            };
+            save();
+        }
     });
     task.inputElement.focus();
 
-    function save(){
+    function save() {
         if (task.inputElement.value.length !== 0) {
             task.inputElement.disabled = true;
-            saveTask(date, task.inputElement, taskDiv);
+            saveTask(date, task.inputElement, taskDiv.divElement);
         }
     }
 }
