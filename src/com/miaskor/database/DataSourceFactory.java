@@ -6,34 +6,22 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.experimental.UtilityClass;
 
-import javax.sql.DataSource;
-
+import static com.miaskor.util.Constants.DataSource.*;
 @UtilityClass
 public class DataSourceFactory {
 
-    private static final String MAIN_URL_KEY = "db.url";
-    private static final String TEST_URL_KEY = "db.urlTest";
-    private static final String NAME_KEY = "db.userName";
-    private static final String PASSWORD_KEY = "db.password";
-    private static final String CACHE_PREP_STMTS = "db.cachePrepStmts";
-    private static final String PREP_STMT_CACHE_SIZE = "db.prepStmtCacheSize";
-    private static final String PREP_STMT_CACHE_SQL_LIMIT = "db.prepStmtCacheSqlLimit";
-    private static final String POOL_SIZE_KEY = "db.maxPoolSize";
-    private static final String IDLE_TIMEOUT_KEY = "db.idleTimeout";
-    private static final String POOL_NAME_KEY = "db.poolName";
-    private static final String DRIVER_KEY = "db.driver";
     private static final HikariConfig HIKARI_CONFIG = new HikariConfig();
 
     static {
         init();
     }
 
-    public static DataSource getTestDataSource() {
+    public static HikariDataSource getTestDataSource() {
         HIKARI_CONFIG.setJdbcUrl(PropertyUtil.getProperty(TEST_URL_KEY,Constants.PropertyName.DATABASE));
         return new HikariDataSource(HIKARI_CONFIG);
     }
 
-    public static DataSource getMainDataSource() {
+    public static HikariDataSource getMainDataSource() {
         return new HikariDataSource(HIKARI_CONFIG);
     }
 
@@ -58,6 +46,7 @@ public class DataSourceFactory {
                 .getProperty(PREP_STMT_CACHE_SQL_LIMIT, Constants.PropertyName.DATABASE));
         HIKARI_CONFIG.setDriverClassName(PropertyUtil.getProperty(DRIVER_KEY, Constants.PropertyName.DATABASE));
     }
+
 
 
 }

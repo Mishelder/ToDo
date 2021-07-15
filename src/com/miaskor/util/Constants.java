@@ -50,4 +50,19 @@ public class Constants {
         }
     }
 
+    @UtilityClass
+    public static class DataSource{
+        public static final String MAIN_URL_KEY = "db.url";
+        public static final String TEST_URL_KEY = "db.urlTest";
+        public static final String NAME_KEY = "db.userName";
+        public static final String PASSWORD_KEY = "db.password";
+        public static final String CACHE_PREP_STMTS = "db.cachePrepStmts";
+        public static final String PREP_STMT_CACHE_SIZE = "db.prepStmtCacheSize";
+        public static final String PREP_STMT_CACHE_SQL_LIMIT = "db.prepStmtCacheSqlLimit";
+        public static final String POOL_SIZE_KEY = "db.maxPoolSize";
+        public static final String IDLE_TIMEOUT_KEY = "db.idleTimeout";
+        public static final String POOL_NAME_KEY = "db.poolName";
+        public static final String DRIVER_KEY = "db.driver";
+    }
+
 }
