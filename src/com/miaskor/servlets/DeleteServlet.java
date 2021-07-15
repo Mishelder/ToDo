@@ -2,7 +2,6 @@ package com.miaskor.servlets;
 
 import com.miaskor.mapper.json.JsonToDeleteTaskDtoMapper;
 import com.miaskor.service.DeleteTaskService;
-import com.miaskor.util.Constants;
 import com.miaskor.util.JsonUtil;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(Constants.ControllersURI.DELETE)
+import static com.miaskor.util.Constants.ControllersURI.*;
+@WebServlet(DELETE)
 public class DeleteServlet extends HttpServlet {
 
     private final DeleteTaskService deleteTaskService = DeleteTaskService.getInstance();

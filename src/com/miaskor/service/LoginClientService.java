@@ -4,9 +4,7 @@ import com.miaskor.dao.ClientDaoImpl;
 import com.miaskor.dto.LoginClientDto;
 import com.miaskor.entity.Client;
 import com.miaskor.exception.ValidationException;
-import com.miaskor.mapper.LoginClientMapper;
 import com.miaskor.validator.LoginClientValidator;
-import com.miaskor.validator.ValidationResult;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +14,6 @@ import java.util.Optional;
 public class LoginClientService {
     private static final LoginClientService INSTANCE = new LoginClientService();
     private final LoginClientValidator clientValidator = LoginClientValidator.getInstance();
-    private final LoginClientMapper clientMapper = LoginClientMapper.getInstance();
     private final ClientDaoImpl clientDao = ClientDaoImpl.getInstance(false);
 
     /*

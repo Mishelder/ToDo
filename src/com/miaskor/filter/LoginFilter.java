@@ -1,8 +1,6 @@
 package com.miaskor.filter;
 
 import com.miaskor.entity.Client;
-import com.miaskor.util.Constants;
-import com.miaskor.util.Constants.ControllersURI;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,17 +16,20 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.miaskor.util.Constants.ControllersURI.*;
+import static com.miaskor.util.Constants.Attributes.*;
+
 @WebFilter("*")
 public class LoginFilter extends HttpFilter {
 
-    private static final Set<String> PUBLIC_PAGES = ControllersURI.getAllPublicURL();
-    private static final Set<String> ALL_FEASIBLE_PAGES = ControllersURI.getAllFeasibleURL();
+    private static final Set<String> PUBLIC_PAGES = getAllPublicURL();
+    private static final Set<String> ALL_FEASIBLE_PAGES = getAllFeasibleURL();
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         req.setCharacterEncoding(StandardCharsets.UTF_8.name());
         res.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        var client = (Client) req.getSession().getAttribute(Constants.Attributes.CLIENT);
+        var client = (Client) req.getSession().getAttribute(CLIENT);
         var cookies = req.getCookies();
         var uri = req.getRequestURI();
 
@@ -39,7 +40,7 @@ public class LoginFilter extends HttpFilter {
             chain.doFilter(req, res);
         } else {
             res.sendRedirect(res.getHeader("referer") == null
-                    ? ControllersURI.LOGIN :res.getHeader("referer"));
+                    ? LOGIN :res.getHeader("referer"));
         }
     }
 

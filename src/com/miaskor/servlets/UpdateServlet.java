@@ -3,8 +3,6 @@ package com.miaskor.servlets;
 
 import com.miaskor.mapper.json.JsonToUpdateTaskDtoMapper;
 import com.miaskor.service.UpdateService;
-import com.miaskor.util.Constants;
-import com.miaskor.util.JsonUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(Constants.ControllersURI.UPDATE)
+import static com.miaskor.util.JsonUtil.*;
+import static com.miaskor.util.Constants.ControllersURI.*;
+
+@WebServlet(UPDATE)
 public class UpdateServlet extends HttpServlet {
 
     private final UpdateService updateService = UpdateService.getInstance();
@@ -22,7 +23,7 @@ public class UpdateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var body = JsonUtil.parseBody(req);
+        var body = parseBody(req);
         updateService.updateTask(jsonToUpdateTaskDtoMapper.map(body));
     }
 }

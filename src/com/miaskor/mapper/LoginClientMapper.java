@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Deprecated
 public class LoginClientMapper implements Mapper<LoginClientDto, Client>{
 
     private static final LoginClientMapper INSTANCE = new LoginClientMapper();
