@@ -20,7 +20,7 @@ public class RegistrationClientService {
             RegistrationClientMapper.getInstance();
     private final ClientDaoImpl clientDao = ClientDaoImpl.getInstance(false);
 
-    public Client registerClient(RegistrationClientDto registrationClientDto) {
+    public Client registerClient(RegistrationClientDto registrationClientDto) throws ValidationException {
         ValidationResult validationResult = registrationClientValidator.isValid(registrationClientDto);
         if (!validationResult.isValid()){
             throw new ValidationException(validationResult.getErrorMessages());

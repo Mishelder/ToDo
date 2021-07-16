@@ -20,7 +20,7 @@ public class LoginClientService {
     * client.get() won't throw NoSuchElementException because
     * validator have already checked client
     * */
-    public Client loginClient(LoginClientDto clientDto) {
+    public Client loginClient(LoginClientDto clientDto) throws ValidationException {
         var valid = clientValidator.isValid(clientDto);
         if (!(valid.isValid())) {
             throw new ValidationException(valid.getErrorMessages());
