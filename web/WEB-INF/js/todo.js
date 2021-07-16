@@ -26,6 +26,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ];
 const RANGE_VALUE = 8;
+const MIN_LENGTH_FOR_TEXT_AREA = 30;
 const moveLeft = document.getElementById("move_left");
 const moveRight = document.getElementById("move_right");
 const toDoListDiv = document.getElementById("to_do_list");
@@ -34,10 +35,10 @@ let moveableTo = new Date();
 let currentFrom = new Date();
 let currentTo = new Date();
 moveableFrom.subtractDays(RANGE_VALUE);
-moveableTo.addDays(RANGE_VALUE)
-currentTo.addDays(RANGE_VALUE / 2)
+moveableTo.addDays(RANGE_VALUE);
+currentTo.addDays(RANGE_VALUE / 2);
 
-const allTasks = {}
+const allTasks = {};
 
 function getTasks(from, to, func = function () {
 }) {
@@ -69,7 +70,13 @@ function saveTask(date, inputElement, taskDiv) {
             }),
     }).then(response => response.text())
         .then(text => {
-            taskDiv.id = JSON.parse(text);
+            let parse = JSON.parse(text);
+            if(!parse.hasOwnProperty("task")) {
+                taskDiv.id = parse;
+            }else{
+                inputElement.value = parse.task;
+            }
+
         }).then(() => {
         createAlternationDiv(taskDiv);
         createDivForTask(date);
@@ -178,12 +185,17 @@ function initDateRange(dateFrom, dateTo) {
     }
 }
 
+
+
 function createDivForExistTask(date, item) {
     let tasksDiv = document.getElementById(date).getElementsByClassName('tasks')[0],
         taskDiv = new Div(item['id'], 'task'),
         taskValueDiv = new Div('', 'value_task'),
         task = new InputElement('text', '', item['taskName'], '', '', false, '');
     taskDiv.renderAppend(tasksDiv);
+    if(item['taskName'].length>MIN_LENGTH_FOR_TEXT_AREA){
+        isMatchedValueForTextArea(task.inputElement.value,taskDiv.divElement);
+    }
     taskValueDiv.renderAppend(taskDiv.divElement);
     task.renderAppend(taskValueDiv.divElement);
     task.inputElement.disabled = true;
@@ -210,7 +222,11 @@ function createAlternationDiv(taskDiv) {
     });
     divForAlternateImage.divElement.addEventListener('click', () => {
         let value_task = taskDiv.getElementsByClassName('value_task')[0],
-            input = value_task.getElementsByTagName('input')[0];
+            input = value_task.getElementsByTagName('input')[0],
+            divText = taskDiv.getElementsByClassName("pop_up_task")[0];
+        if(divText !== undefined)
+            divText.classList.remove("pop_up_task");
+
         input.disabled = false;
         input.focus();
         input.onblur = () => {
@@ -219,8 +235,20 @@ function createAlternationDiv(taskDiv) {
                 deleteTask(taskDiv.id);
             } else {
                 input.disabled = true;
+                if(input.value.length < MIN_LENGTH_FOR_TEXT_AREA){
+                    if(divText !== undefined)
+                        divText.remove();
+                }else {
+                    if(divText !== undefined) {
+                        divText.innerText = input.value;
+                        divText.classList.add("pop_up_task");
+                    }else {
+                        isMatchedValueForTextArea(input.value, taskDiv);
+                    }
+                }
                 updateTask(taskDiv.id, input.value, input.classList.contains('is_done'));
             }
+
         };
     });
     divForAlternateImage.divElement.append(alternateImage);
@@ -244,14 +272,16 @@ function createDivForTask(date) {
         taskValueDiv = new Div('', 'value_task'),
         task = new InputElement('text', '', '', '', '', false, '');
     taskDiv.renderAppend(tasksDiv);
-    taskValueDiv.renderAppend(taskDiv.divElement)
+    taskValueDiv.renderAppend(taskDiv.divElement);
     task.renderAppend(taskValueDiv.divElement);
     changeDoneStatusOnClick(taskValueDiv.divElement, task.inputElement, taskDiv.divElement);
     task.inputElement.onblur = () => {
+        isMatchedValueForTextArea(task.inputElement.value,taskDiv.divElement);
         save();
     };
     task.inputElement.addEventListener('keydown', (event) => {
         if (event.key === "Enter") {
+            isMatchedValueForTextArea(task.inputElement.value,taskDiv.divElement);
             task.inputElement.onblur = () => {
             };
             save();
@@ -267,6 +297,13 @@ function createDivForTask(date) {
     }
 }
 
+function isMatchedValueForTextArea(value,taskDiv){
+    if(value.length>MIN_LENGTH_FOR_TEXT_AREA&&value.length<512){
+        let divAreaElem = new Div("","hidden","pop_up_task");
+        divAreaElem.renderAppend(taskDiv);
+        divAreaElem.divElement.innerText = value;
+    }
+}
 
 function createTask(date) {
     let tasksValue = null;
