@@ -123,10 +123,14 @@ form.addEventListener('submit', (e) => {
             redirect: "follow",
             body: JSON.stringify(data)
         }).then(response => {
-            if(response.redirected)
+            if(response.redirected) {
                 document.location = response.url;
-            return response.text();
-        }).then(body => setErrorData(JSON.parse(body)));
+            }else {
+                response.text().then(body=>{
+                    setErrorData(JSON.parse(body));
+                });
+            }
+        });
     }
 });
 

@@ -40,20 +40,15 @@ currentTo.addDays(RANGE_VALUE / 2);
 
 const allTasks = {};
 
-function getTasks(from, to, func = function () {
-}) {
-    fetch('/fetch', {
+function getTasks(from, to) {
+    return fetch('/fetch', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify({'from': from, 'to': to}),
     }).then(response => response.text())
-        .then(text => Object.assign(allTasks, JSON.parse(text)))
-        .then(() => {
-            func(currentFrom, currentTo);
-        })
-    return true;
+        .then(text => Object.assign(allTasks, JSON.parse(text)));
 }
 
 function saveTask(date, inputElement, taskDiv) {
@@ -230,26 +225,34 @@ function createAlternationDiv(taskDiv) {
         input.disabled = false;
         input.focus();
         input.onblur = () => {
+            whenAlternationIsEnd();
+        };
+        input.addEventListener('keydown', (event) => {
+            if (event.key === "Enter") {
+                whenAlternationIsEnd();
+            }
+        });
+
+        function whenAlternationIsEnd() {
             if (input.value.length === 0) {
                 taskDiv.remove();
                 deleteTask(taskDiv.id);
             } else {
                 input.disabled = true;
-                if(input.value.length < MIN_LENGTH_FOR_TEXT_AREA){
-                    if(divText !== undefined)
+                if (input.value.length < MIN_LENGTH_FOR_TEXT_AREA) {
+                    if (divText !== undefined)
                         divText.remove();
-                }else {
-                    if(divText !== undefined) {
+                } else {
+                    if (divText !== undefined) {
                         divText.innerText = input.value;
                         divText.classList.add("pop_up_task");
-                    }else {
+                    } else {
                         isMatchedValueForTextArea(input.value, taskDiv);
                     }
                 }
                 updateTask(taskDiv.id, input.value, input.classList.contains('is_done'));
             }
-
-        };
+        }
     });
     divForAlternateImage.divElement.append(alternateImage);
     divForDeleteImage.divElement.append(deleteImage);
@@ -317,4 +320,6 @@ function createTask(date) {
     }
 }
 
-getTasks(moveableFrom.toDateString(), moveableTo.toDateString(), initDateRange);
+getTasks(moveableFrom.toDateString(), moveableTo.toDateString()).then(()=>{
+    initDateRange(currentFrom, currentTo);
+});

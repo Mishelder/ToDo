@@ -60,7 +60,8 @@ div.task{
 }
 
 div.current_day{
-    background-color: #ff3344;
+    border-radius:25px;
+    background:#B9D3DC;
 }
 
 div.value_task{
