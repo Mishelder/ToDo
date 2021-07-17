@@ -9,7 +9,9 @@
         <div class="header-bar">
             <h1 class="logo">ToDo</h1>
             <ul class="slider-menu">
-                <li><a href = "${pageContext.request.contextPath}/todo/start" class="links">Home</a></li>
+                <c:if test="${cookie.loggedIn.value.equals('true') && sessionScope.client !=null}">
+                    <li><a href = "${pageContext.request.contextPath}/todo/start" class="links">Home</a></li>
+                </c:if>
                 <li>About</li>
                 <c:if test="${cookie.loggedIn.value.equals('true') && sessionScope.client !=null}">
                 <li><a href="${pageContext.request.contextPath}/logout" class="links">Logout</a></li>

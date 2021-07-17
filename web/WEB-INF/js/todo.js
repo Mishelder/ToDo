@@ -40,8 +40,8 @@ currentTo.addDays(RANGE_VALUE / 2);
 
 const allTasks = {};
 
-function getTasks(from, to) {
-    return fetch('/fetch', {
+async function getTasks(from, to) {
+    return await fetch('/fetch', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
