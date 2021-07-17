@@ -7,11 +7,14 @@ import com.miaskor.entity.Client;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,7 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
 
     private static final ClientDaoImpl INSTANCE = new ClientDaoImpl();
     private static ConnectionManager connectionManager = MainConnectionManager.getInstance();
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientDaoImpl.class.getName());
 
     private static final String CREATE_CLIENT = """ 
             INSERT INTO client
@@ -45,23 +49,25 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
     }
 
     @Override
-    @SneakyThrows
-    public Client create(Client object) {
+    public Client create(Client client) {
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(CREATE_CLIENT, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, object.getLogin());
-            preparedStatement.setString(2, object.getEmail());
-            preparedStatement.setString(3, object.getPassword());
+            preparedStatement.setString(1, client.getLogin());
+            preparedStatement.setString(2, client.getEmail());
+            preparedStatement.setString(3, client.getPassword());
             preparedStatement.execute();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next())
-                object.setId(generatedKeys.getObject(1, Integer.class));
+                client.setId(generatedKeys.getObject(1, Integer.class));
+            LOGGER.info("{} has been created", client);
+        }catch (SQLException e){
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
-        return object;
+        return client;
     }
 
     @Override
-    @SneakyThrows
     public Optional<Client> read(Integer index) {
         Client client = null;
         try (var connection = connectionManager.getConnection();
@@ -71,35 +77,44 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
             if (resultSet.next()) {
                 client = buildClient(resultSet);
             }
+            LOGGER.info("{} has been read", client);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(client);
     }
 
     @Override
-    @SneakyThrows
-    public boolean update(Client object) {
+    public boolean update(Client client) {
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(UPDATE_CLIENT)) {
-            preparedStatement.setString(1, object.getLogin());
-            preparedStatement.setString(2, object.getEmail());
-            preparedStatement.setString(3, object.getPassword());
-            preparedStatement.setInt(4, object.getId());
+            preparedStatement.setString(1, client.getLogin());
+            preparedStatement.setString(2, client.getEmail());
+            preparedStatement.setString(3, client.getPassword());
+            preparedStatement.setInt(4, client.getId());
+            LOGGER.info("{} has been updated ", client);
             return preparedStatement.executeUpdate()>0;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    @SneakyThrows
     public boolean delete(Integer index) {
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(DELETE_CLIENT_BY_ID)) {
             preparedStatement.setInt(1, index);
+            LOGGER.info("Client has been updated with id {}", index);
             return preparedStatement.executeUpdate()>0;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    @SneakyThrows
     public List<Client> findAll() {
         List<Client> clients = new ArrayList<>();
         try (var connection = connectionManager.getConnection();
@@ -108,36 +123,44 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
             while (resultSet.next()) {
                 clients.add(buildClient(resultSet));
             }
+            LOGGER.info("Clients have been found");
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
         return clients;
     }
 
     @Override
-    @SneakyThrows
     public Optional<Client> readByLogin(String login) {
         Client client = null;
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_BY_LOGIN)) {
             preparedStatement.setString(1, login);
             var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            if (resultSet.next())
                 client = buildClient(resultSet);
-            }
+            LOGGER.info("{} have been read",client);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(client);
     }
 
     @Override
-    @SneakyThrows
     public Optional<Client> readByEmail(String email) {
         Client client = null;
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_BY_EMAIL)) {
             preparedStatement.setString(1, email);
             var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            if (resultSet.next())
                 client = buildClient(resultSet);
-            }
+            LOGGER.info("{} have been read",client);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(client);
     }

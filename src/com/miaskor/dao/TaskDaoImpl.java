@@ -7,6 +7,8 @@ import com.miaskor.entity.Task;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.sql.Date;
@@ -18,6 +20,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
 
     private static final TaskDaoImpl INSTANCE = new TaskDaoImpl();
     private static ConnectionManager connectionManager = MainConnectionManager.getInstance();
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskDaoImpl.class.getName());
 
     private static final String CREATE_TASK = """
             INSERT INTO task
@@ -61,7 +64,6 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
      * maybe fetch all clients by one request will enhance performance
      * */
     @Override
-    @SneakyThrows
     public List<Task> findAll() {
         List<Task> tasks = new ArrayList<>();
         try (var connection = connectionManager.getConnection();
@@ -70,30 +72,36 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             while (resultSet.next()) {
                 tasks.add(buildTask(resultSet));
             }
+            LOGGER.info("Tasks have been found");
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(),e);
+            throw new RuntimeException(e);
         }
         return tasks;
     }
 
     @Override
-    @SneakyThrows
-    public Task create(Task object) {
+    public Task create(Task task) {
         try (var connection = connectionManager.getConnection();
              var statement = connection.prepareStatement(CREATE_TASK,PreparedStatement.RETURN_GENERATED_KEYS)) {
-            statement.setObject(1, object.getClientId());
-            statement.setObject(2, object.getTaskName());
-            statement.setObject(3, object.getDone());
-            statement.setObject(4, Date.valueOf(object.getDate()));
+            statement.setObject(1, task.getClientId());
+            statement.setObject(2, task.getTaskName());
+            statement.setObject(3, task.getDone());
+            statement.setObject(4, Date.valueOf(task.getDate()));
             statement.executeUpdate();
             var generatedKeys = statement.getGeneratedKeys();
             if(generatedKeys.next()){
-                object.setId(generatedKeys.getObject(1,Integer.class));
+                task.setId(generatedKeys.getObject(1,Integer.class));
             }
+            LOGGER.info("{} have been created",task);
+        }catch (SQLException e) {
+            LOGGER.error(e.getMessage(),e);
+            throw new RuntimeException(e);
         }
-        return object;
+        return task;
     }
 
     @Override
-    @SneakyThrows
     public void createTasks(List<Task> objects) {
         for (Task task : objects) {
             create(task);
@@ -101,7 +109,6 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
     }
 
     @Override
-    @SneakyThrows
     public Optional<Task> read(Integer index) {
         Task task = null;
         try (var connection = connectionManager.getConnection();
@@ -111,12 +118,15 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             if (resultSet.next()) {
                 task = buildTask(resultSet);
             }
+            LOGGER.info("{} have been read",task);
+        }catch (SQLException e) {
+            LOGGER.error(e.getMessage(),e);
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(task);
     }
 
     @Override
-    @SneakyThrows
     public List<Task> readByDate(LocalDate day,Integer clientIndex) {
         List<Task> tasks = new ArrayList<>();
         try (var connection = connectionManager.getConnection();
@@ -127,16 +137,20 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             while (resultSet.next()) {
                 tasks.add(buildTask(resultSet));
             }
+            LOGGER.info("{} have been read by date",tasks);
+        }catch (SQLException e) {
+            LOGGER.error(e.getMessage(),e);
+            throw new RuntimeException(e);
         }
         return tasks;
     }
 
-    @Override
-    @SneakyThrows
+
     /*
         from - start day included
         to - end day included
      */
+    @Override
     public Map<LocalDate, List<Task>> readAllTaskByPeriod(LocalDate from, LocalDate to,Integer clientIndex) {
         if(to.toString().compareTo(from.toString())<0)
             throw new IllegalArgumentException("Date from cannot be more than date to");
@@ -152,24 +166,30 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
 
 
     @Override
-    @SneakyThrows
     public boolean update(Task task) {
         try (var connection = connectionManager.getConnection();
              var statement = connection.prepareStatement(UPDATE_TASK)) {
             statement.setString(1,task.getTaskName());
             statement.setBoolean(2,task.getDone());
             statement.setInt(3,task.getId());
+            LOGGER.info("{} have been updated",task);
             return statement.executeUpdate()>0;
+        }catch (SQLException e) {
+            LOGGER.error(e.getMessage(),e);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    @SneakyThrows
     public boolean delete(Integer index) {
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(DELETE_TASK)) {
             preparedStatement.setInt(1, index);
+            LOGGER.info("Task has been deleted by id {}",index);
             return preparedStatement.executeUpdate()>0;
+        }catch (SQLException e) {
+            LOGGER.error(e.getMessage(),e);
+            throw new RuntimeException(e);
         }
     }
 
