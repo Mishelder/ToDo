@@ -5,6 +5,8 @@ import com.miaskor.exception.ValidationException;
 import com.miaskor.mapper.json.ErrorMessagesToJsonMapper;
 import com.miaskor.mapper.json.JsonToRegistrationClientDtoMapper;
 import com.miaskor.service.RegistrationClientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,7 @@ public class RegistrationServlet extends HttpServlet {
             JsonToRegistrationClientDtoMapper.getInstance();
     private final ErrorMessagesToJsonMapper errorMessagesToJsonMapper =
             ErrorMessagesToJsonMapper.getInstance();
+    private final Logger logger = LoggerFactory.getLogger(RegistrationServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,8 +36,10 @@ public class RegistrationServlet extends HttpServlet {
         try {
             Client client = registrationClientService.
                     registerClient(registrationClientDto);
+            logger.info("Client has registered okay {}",client);
         } catch (ValidationException e) {
             String errors = errorMessagesToJsonMapper.map(e.getErrorMessages());
+            logger.info("Client has errors while registration {}",errors);
             resp.getWriter().write(errors);
         }
     }

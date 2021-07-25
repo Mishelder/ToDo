@@ -69,10 +69,9 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(READ_ALL_TASK)) {
             var resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            while (resultSet.next())
                 tasks.add(buildTask(resultSet));
-            }
-            LOGGER.info("Tasks have been found");
+            LOGGER.info("Tasks have been executed found");
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(),e);
             throw new RuntimeException(e);
@@ -93,7 +92,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             if(generatedKeys.next()){
                 task.setId(generatedKeys.getObject(1,Integer.class));
             }
-            LOGGER.info("{} have been created",task);
+            LOGGER.info("{} has been executed create",task);
         }catch (SQLException e) {
             LOGGER.error(e.getMessage(),e);
             throw new RuntimeException(e);
@@ -118,7 +117,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             if (resultSet.next()) {
                 task = buildTask(resultSet);
             }
-            LOGGER.info("{} have been read",task);
+            LOGGER.info("{} has been executed read",task);
         }catch (SQLException e) {
             LOGGER.error(e.getMessage(),e);
             throw new RuntimeException(e);
@@ -134,10 +133,10 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             preparedStatement.setDate(1, Date.valueOf(day));
             preparedStatement.setInt(2, clientIndex);
             var resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            while (resultSet.next())
                 tasks.add(buildTask(resultSet));
-            }
-            LOGGER.info("{} have been read by date",tasks);
+            if(!tasks.isEmpty())
+                LOGGER.info("{} have been read by date",tasks);
         }catch (SQLException e) {
             LOGGER.error(e.getMessage(),e);
             throw new RuntimeException(e);
@@ -145,15 +144,16 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
         return tasks;
     }
 
-
     /*
         from - start day included
         to - end day included
      */
     @Override
     public Map<LocalDate, List<Task>> readAllTaskByPeriod(LocalDate from, LocalDate to,Integer clientIndex) {
-        if(to.toString().compareTo(from.toString())<0)
+        if(to.toString().compareTo(from.toString())<0) {
+            LOGGER.error("Date from cannot be more than date to (readAllTaskByPeriod)");
             throw new IllegalArgumentException("Date from cannot be more than date to");
+        }
         Map<LocalDate, List<Task>> tasks = new HashMap<>();
         while (!from.equals(to.plusDays(1))) {
             var tasksByDay = readByDate(from, clientIndex);
@@ -172,7 +172,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
             statement.setString(1,task.getTaskName());
             statement.setBoolean(2,task.getDone());
             statement.setInt(3,task.getId());
-            LOGGER.info("{} have been updated",task);
+            LOGGER.info("{} has been executed update",task);
             return statement.executeUpdate()>0;
         }catch (SQLException e) {
             LOGGER.error(e.getMessage(),e);
@@ -185,7 +185,7 @@ public class TaskDaoImpl implements TaskDao<Integer, Task> {
         try (var connection = connectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(DELETE_TASK)) {
             preparedStatement.setInt(1, index);
-            LOGGER.info("Task has been deleted by id {}",index);
+            LOGGER.info("Task has been executed delete by id {}",index);
             return preparedStatement.executeUpdate()>0;
         }catch (SQLException e) {
             LOGGER.error(e.getMessage(),e);

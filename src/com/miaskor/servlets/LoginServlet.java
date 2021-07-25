@@ -4,6 +4,8 @@ import com.miaskor.exception.ValidationException;
 import com.miaskor.mapper.json.ErrorMessagesToJsonMapper;
 import com.miaskor.mapper.json.JsonToLoginClientDtoMapper;
 import com.miaskor.service.LoginClientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +29,7 @@ public class LoginServlet extends HttpServlet {
             ErrorMessagesToJsonMapper.getInstance();
     private final JsonToLoginClientDtoMapper jsonToLoginClientDtoMapper =
             JsonToLoginClientDtoMapper.getInstance();
+    private final Logger logger = LoggerFactory.getLogger(LoginServlet.class);
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
@@ -45,8 +48,10 @@ public class LoginServlet extends HttpServlet {
             resp.addCookie(cookie);
             req.getSession().setAttribute(CLIENT, client);
             resp.sendRedirect(TODO);
+            logger.info("Client has logged okay {}",client);
         } catch (ValidationException e) {
             String errors = errorMessagesToJsonMapper.map(e.getErrorMessages());
+            logger.info("Client has errors while login {}",errors);
             resp.getWriter().write(errors);
         }
     }

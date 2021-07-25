@@ -140,7 +140,7 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
             var resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
                 client = buildClient(resultSet);
-            LOGGER.info("{} have been read",client);
+            LOGGER.info("{} have been read by login",client);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
             throw new RuntimeException(e);
@@ -157,7 +157,7 @@ public class ClientDaoImpl implements ClientDao<Integer, Client> {
             var resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
                 client = buildClient(resultSet);
-            LOGGER.info("{} have been read",client);
+            LOGGER.info("{} have been read by email",client);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
             throw new RuntimeException(e);
