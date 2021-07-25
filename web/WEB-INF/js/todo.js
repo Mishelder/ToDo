@@ -282,21 +282,26 @@ function createDivForTask(date) {
         isMatchedValueForTextArea(task.inputElement.value,taskDiv.divElement);
         save();
     };
-    task.inputElement.addEventListener('keydown', (event) => {
-        if (event.key === "Enter") {
-            isMatchedValueForTextArea(task.inputElement.value,taskDiv.divElement);
-            task.inputElement.onblur = () => {
-            };
-            save();
-        }
-    });
+
+    task.inputElement.addEventListener('keydown', saveWhenPressEnter);
     task.inputElement.focus();
 
     function save() {
         if (task.inputElement.value.length !== 0) {
             task.inputElement.disabled = true;
             saveTask(date, task.inputElement, taskDiv.divElement);
+            task.inputElement.removeEventListener('keydown',saveWhenPressEnter);
+            task.inputElement.onblur = () => {};
         }
+    }
+
+    function saveWhenPressEnter() {
+        return (event) => {
+            if (event.key === "Enter") {
+                isMatchedValueForTextArea(task.inputElement.value, taskDiv.divElement);
+                save();
+            }
+        };
     }
 }
 
