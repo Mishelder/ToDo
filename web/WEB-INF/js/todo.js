@@ -339,21 +339,21 @@ function changeCurrentRange(from, to) {
     currentTo = new Date(to);
 }
 
-function hideAllToDoDays() {
-    const allToDoDays = toDoListDiv.getElementsByClassName("to_do_day");
-    for (let toDoItem of allToDoDays) {
+function hideAllToDoDays(all) {
+    for (let toDoItem of all) {
         toDoItem.classList.add("hidden");
     }
 }
 
-calendar.addEventListener("input", (e) => {
+calendar.addEventListener("change", (e) => {
     const from = new Date(e.target.value),
         to = new Date(e.target.value);
     to.addDays(RANGE_VALUE / 2);
+    const allToDoDays = toDoListDiv.getElementsByClassName("to_do_day");
     let rangeNewVisibleDates = dateInRange(from, to);
     changeMoveableRange(from, to);
     let rangeMoveableDates = dateInRange(moveableFrom, moveableTo);
-    hideAllToDoDays();
+    hideAllToDoDays(allToDoDays);
     let tempCursorDateFrom = new Date(moveableFrom);
     let tempCursorDateTo = new Date(moveableTo);
     let isNeedLoadTask = true;
@@ -369,26 +369,27 @@ calendar.addEventListener("input", (e) => {
     }
     if (isNeedLoadTask) {
         getTasks(tempCursorDateFrom.toDateString(), tempCursorDateTo.toDateString()).then(() => {
-            generateToDoDays();
-            changeCurrentRange(rangeNewVisibleDates[0], rangeNewVisibleDates[rangeNewVisibleDates.length - 1]);
+            generateToDoDays(rangeNewVisibleDates);
         });
     } else {
-        generateToDoDays();
-        changeCurrentRange(rangeNewVisibleDates[0], rangeNewVisibleDates[rangeNewVisibleDates.length - 1]);
+        generateToDoDays(rangeNewVisibleDates);
     }
 
-    function generateToDoDays() {
+    function  generateToDoDays(rangeNewVisibleDates) {
         let appendableElem = null;
         for (let date of rangeNewVisibleDates) {
-            let existedDate = document.getElementById(date.formatToDMY());
+            const existedDate = document.getElementById(date.formatToDMY());
             if (existedDate === null) {
                 if (appendableElem === null) {
                     appendableElem = createToDoDay(date).divElement;
-                    document.getElementById(currentTo.formatToDMY());
-                    if (date > currentTo) {
-                        document.getElementById(currentTo.formatToDMY()).after(appendableElem);
-                    } else if (date < currentFrom) {
-                        document.getElementById(currentFrom.formatToDMY()).before(appendableElem);
+                    let dates = [];
+                    for(let elem of allToDoDays)
+                        dates.push(elem.id);
+                    const indexDate =binarySearchDate(dates,date.formatToDMY());
+                    if(date>dates[indexDate]) {
+                        document.getElementById(dates[indexDate]).after(appendableElem);
+                    }else{
+                        document.getElementById(dates[indexDate]).before(appendableElem);
                     }
                 } else {
                     const newElem = createToDoDay(date).divElement
@@ -401,18 +402,43 @@ calendar.addEventListener("input", (e) => {
                 existedDate.classList.remove('hidden');
             }
         }
+        changeCurrentRange(rangeNewVisibleDates[0], rangeNewVisibleDates[rangeNewVisibleDates.length - 1]);
     }
 });
+
+
+
+function binarySearchDate(arrDates, date){
+    if(date>arrDates[arrDates.length-1])
+        return arrDates.length - 1;
+    if(date<arrDates[0])
+        return 0;
+    let begin = 0,
+        end = arrDates.length -1;
+
+    while (begin <= end) {
+        let middle =  Math.floor((begin + end) / 2) ;
+        let midVal = arrDates[middle];
+        if (date > midVal)
+            begin = middle+1;
+        else if (date < midVal)
+            end = middle-1;
+        else
+            return  Math.floor(middle);
+    }
+    return  Math.floor((begin));
+}
 
 const homeBtn = document.getElementById("home_btn");
 homeBtn.addEventListener("click", (e) => {
     e.preventDefault();
     const newFrom = new Date(NOW),
         newTo = new Date(NOW);
+    const allToDoDays = toDoListDiv.getElementsByClassName("to_do_day");
     newTo.addDays(RANGE_VALUE/2);
     changeCurrentRange(newFrom,new Date(newTo));
     changeMoveableRange(newFrom,newTo);
-    hideAllToDoDays();
+    hideAllToDoDays(allToDoDays);
     for(let date of dateInRange(newFrom,newTo)){
         document.getElementById(date.formatToDMY()).classList.remove("hidden");
     }
