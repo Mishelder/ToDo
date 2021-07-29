@@ -7,7 +7,7 @@ Date.prototype.subtractDays = function (days) {
 }
 
 Date.prototype.formatToDM = function () {
-    return this.getDate() + ' ' + monthNames[this.getMonth()];
+    return this.getDate() + ' ' + MONTH_NAMES[this.getMonth()];
 }
 
 Date.prototype.formatToDMY = function () {
@@ -21,22 +21,24 @@ function isNeededZero(date) {
     return date;
 }
 
-const now = new Date();
-const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-];
-const RANGE_VALUE = 8;
-const MIN_LENGTH_FOR_TEXT_AREA = 30;
-const moveLeft = document.getElementById("move_left");
-const moveRight = document.getElementById("move_right");
-const toDoListDiv = document.getElementById("to_do_list");
-let moveableFrom = new Date();
-let moveableTo = new Date();
-let currentFrom = new Date();
-let currentTo = new Date();
-moveableFrom.subtractDays(RANGE_VALUE);
-moveableTo.addDays(RANGE_VALUE);
-currentTo.addDays(RANGE_VALUE / 2);
+const NOW = new Date(),
+    MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ],
+    RANGE_VALUE = 8,
+    MIN_LENGTH_FOR_TEXT_AREA = 30;
+
+const moveLeft = document.getElementById("move_left"),
+    moveRight = document.getElementById("move_right"),
+    toDoListDiv = document.getElementById("to_do_list");
+
+let moveableFrom = new Date(),
+    moveableTo = new Date(),
+    currentFrom = new Date(),
+    currentTo = new Date();
+currentTo.addDays(RANGE_VALUE/2);
+changeCurrentRange(currentFrom, new Date(currentTo));
+changeMoveableRange(currentFrom, currentTo);
 
 const allTasks = {};
 
@@ -103,10 +105,6 @@ function updateTask(id, value, done) {
     }).then();
 }
 
-function insertAfter(referenceNode, newNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-
 moveLeft.addEventListener("click", () => {
     document.getElementById(currentTo.formatToDMY()).classList.add('hidden');
     let oldToDoDiv = document.getElementById(currentFrom.formatToDMY());
@@ -135,7 +133,7 @@ moveRight.addEventListener("click", () => {
     currentTo.addDays(1);
     let newDate = document.getElementById(currentTo.formatToDMY());
     if (newDate === null) {
-        insertAfter(oldToDoDiv,createToDoDay(currentTo).divElement);
+        oldToDoDiv.after(createToDoDay(currentTo).divElement);
         createTask(currentTo.formatToDMY());
     } else {
         newDate.classList.remove('hidden');
@@ -160,13 +158,13 @@ function dateInRange(startDate, stopDate) {
     return dateArray;
 }
 
-function createToDoDay(date, append) {
+function createToDoDay(date) {
     let divToDoDay = new Div(date.formatToDMY(), 'to_do_day'),
         divTasks = new Div('', 'tasks'),
         divDate = new Div('', 'date'),
         labelDate = document.createElement("label");
     labelDate.textContent = date.formatToDM();
-    if (date.formatToDMY() === now.formatToDMY())
+    if (date.formatToDMY() === NOW.formatToDMY())
         divToDoDay.divElement.classList.add('current_day');
     divDate.renderAppend(divToDoDay.divElement);
     divDate.divElement.append(labelDate);
@@ -327,22 +325,35 @@ function createTask(date) {
     }
 }
 
-let calendar = document.getElementById("date");
+const calendar = document.getElementById("date");
+
+function changeMoveableRange(from, to) {
+    moveableFrom = new Date(from);
+    moveableTo = new Date(to);
+    moveableFrom.subtractDays(RANGE_VALUE);
+    moveableTo.addDays(RANGE_VALUE);
+}
+
+function changeCurrentRange(from, to) {
+    currentFrom = new Date(from);
+    currentTo = new Date(to);
+}
+
+function hideAllToDoDays() {
+    const allToDoDays = toDoListDiv.getElementsByClassName("to_do_day");
+    for (let toDoItem of allToDoDays) {
+        toDoItem.classList.add("hidden");
+    }
+}
 
 calendar.addEventListener("input", (e) => {
     const from = new Date(e.target.value),
         to = new Date(e.target.value);
     to.addDays(RANGE_VALUE / 2);
     let rangeNewVisibleDates = dateInRange(from, to);
-    const allToDoDays = toDoListDiv.getElementsByClassName("to_do_day");
-    moveableFrom = new Date(from);
-    moveableTo = new Date(to);
-    moveableFrom.subtractDays(RANGE_VALUE);
-    moveableTo.addDays(RANGE_VALUE);
+    changeMoveableRange(from, to);
     let rangeMoveableDates = dateInRange(moveableFrom, moveableTo);
-    for (let toDoItem of allToDoDays) {
-        toDoItem.classList.add("hidden");
-    }
+    hideAllToDoDays();
     let tempCursorDateFrom = new Date(moveableFrom);
     let tempCursorDateTo = new Date(moveableTo);
     let isNeedLoadTask = true;
@@ -351,7 +362,7 @@ calendar.addEventListener("input", (e) => {
             tempCursorDateFrom.addDays(1);
         if (allTasks.hasOwnProperty(tempCursorDateTo.formatToDMY()))
             tempCursorDateTo.subtractDays(1);
-        if(tempCursorDateFrom.formatToDMY() === tempCursorDateTo.formatToDMY()){
+        if (tempCursorDateFrom.formatToDMY() === tempCursorDateTo.formatToDMY()) {
             isNeedLoadTask = false;
             break;
         }
@@ -359,11 +370,11 @@ calendar.addEventListener("input", (e) => {
     if (isNeedLoadTask) {
         getTasks(tempCursorDateFrom.toDateString(), tempCursorDateTo.toDateString()).then(() => {
             generateToDoDays();
-            currentFrom = new Date(rangeNewVisibleDates[0]);
-            currentTo = new Date(rangeNewVisibleDates[rangeNewVisibleDates.length - 1]);
+            changeCurrentRange(rangeNewVisibleDates[0], rangeNewVisibleDates[rangeNewVisibleDates.length - 1]);
         });
     } else {
         generateToDoDays();
+        changeCurrentRange(rangeNewVisibleDates[0], rangeNewVisibleDates[rangeNewVisibleDates.length - 1]);
     }
 
     function generateToDoDays() {
@@ -390,6 +401,20 @@ calendar.addEventListener("input", (e) => {
                 existedDate.classList.remove('hidden');
             }
         }
+    }
+});
+
+const homeBtn = document.getElementById("home_btn");
+homeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const newFrom = new Date(NOW),
+        newTo = new Date(NOW);
+    newTo.addDays(RANGE_VALUE/2);
+    changeCurrentRange(newFrom,new Date(newTo));
+    changeMoveableRange(newFrom,newTo);
+    hideAllToDoDays();
+    for(let date of dateInRange(newFrom,newTo)){
+        document.getElementById(date.formatToDMY()).classList.remove("hidden");
     }
 });
 

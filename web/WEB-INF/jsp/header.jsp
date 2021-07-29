@@ -10,11 +10,11 @@
             <h1 class="logo">ToDo</h1>
             <ul class="slider-menu">
                 <c:if test="${cookie.loggedIn.value.equals('true') && sessionScope.client !=null}">
-                    <li><a href = "${pageContext.request.contextPath}/todo/start" class="links">Home</a></li>
+                    <li><a href = "${pageContext.request.contextPath}/todo" id="home_btn" class="links">Home</a></li>
                 </c:if>
                 <li>About</li>
                 <c:if test="${cookie.loggedIn.value.equals('true') && sessionScope.client !=null}">
-                <li><a href="${pageContext.request.contextPath}/logout" class="links">Logout</a></li>
+                <li><a href="${pageContext.request.contextPath}/logout" id="logout_btn" class="links">Logout</a></li>
                 </c:if>
             </ul>
         </div>
