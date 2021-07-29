@@ -103,13 +103,18 @@ function updateTask(id, value, done) {
     }).then();
 }
 
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
 moveLeft.addEventListener("click", () => {
     document.getElementById(currentTo.formatToDMY()).classList.add('hidden');
+    let oldToDoDiv = document.getElementById(currentFrom.formatToDMY());
     currentFrom.subtractDays(1);
     currentTo.subtractDays(1);
     let newDate = document.getElementById(currentFrom.formatToDMY());
     if (newDate === null) {
-        createToDoDay(currentFrom, false);
+        oldToDoDiv.before(createToDoDay(currentFrom).divElement);
         createTask(currentFrom.formatToDMY());
     } else {
         newDate.classList.remove('hidden');
@@ -125,11 +130,12 @@ moveLeft.addEventListener("click", () => {
 
 moveRight.addEventListener("click", () => {
     document.getElementById(currentFrom.formatToDMY()).classList.add('hidden');
+    let oldToDoDiv = document.getElementById(currentTo.formatToDMY());
     currentFrom.addDays(1);
     currentTo.addDays(1);
     let newDate = document.getElementById(currentTo.formatToDMY());
     if (newDate === null) {
-        createToDoDay(currentTo, true);
+        insertAfter(oldToDoDiv,createToDoDay(currentTo).divElement);
         createTask(currentTo.formatToDMY());
     } else {
         newDate.classList.remove('hidden');
@@ -160,22 +166,18 @@ function createToDoDay(date, append) {
         divDate = new Div('', 'date'),
         labelDate = document.createElement("label");
     labelDate.textContent = date.formatToDM();
-    if (append) {
-        divToDoDay.renderAppend(toDoListDiv);
-    } else {
-        divToDoDay.renderPrepend(toDoListDiv);
-    }
     if (date.formatToDMY() === now.formatToDMY())
         divToDoDay.divElement.classList.add('current_day');
     divDate.renderAppend(divToDoDay.divElement);
     divDate.divElement.append(labelDate);
     divTasks.renderAppend(divToDoDay.divElement);
+    return divToDoDay;
 }
 
 function initDateRange(dateFrom, dateTo) {
     let rangeOfDates = dateInRange(dateFrom, dateTo);
     for (let item of rangeOfDates) {
-        createToDoDay(item, true);
+        toDoListDiv.append(createToDoDay(item).divElement)
         createTask(item.formatToDMY());
     }
 }
@@ -331,10 +333,10 @@ calendar.addEventListener("input", (e) => {
     const from = new Date(e.target.value),
         to = new Date(e.target.value);
     to.addDays(RANGE_VALUE / 2);
-    let rangeVisibleDates = dateInRange(from, to);
-    const allToDoDays = toDoListDiv.getElementsByTagName("div");
-    moveableFrom = new Date(currentFrom);
-    moveableTo = new Date(currentTo);
+    let rangeNewVisibleDates = dateInRange(from, to);
+    const allToDoDays = toDoListDiv.getElementsByClassName("to_do_day");
+    moveableFrom = new Date(from);
+    moveableTo = new Date(to);
     moveableFrom.subtractDays(RANGE_VALUE);
     moveableTo.addDays(RANGE_VALUE);
     let rangeMoveableDates = dateInRange(moveableFrom, moveableTo);
@@ -343,41 +345,50 @@ calendar.addEventListener("input", (e) => {
     }
     let tempCursorDateFrom = new Date(moveableFrom);
     let tempCursorDateTo = new Date(moveableTo);
+    let isNeedLoadTask = true;
     for (let date of rangeMoveableDates) {
         if (allTasks.hasOwnProperty(tempCursorDateFrom.formatToDMY()))
             tempCursorDateFrom.addDays(1);
         if (allTasks.hasOwnProperty(tempCursorDateTo.formatToDMY()))
             tempCursorDateTo.subtractDays(1);
+        if(tempCursorDateFrom.formatToDMY() === tempCursorDateTo.formatToDMY()){
+            isNeedLoadTask = false;
+            break;
+        }
     }
-    if (tempCursorDateFrom.formatToDMY() !== tempCursorDateTo.formatToDMY()) {
+    if (isNeedLoadTask) {
         getTasks(tempCursorDateFrom.toDateString(), tempCursorDateTo.toDateString()).then(() => {
-            let isAppendable = true;
-            if (from >= currentTo) {
-                isAppendable = true;
-                currentFrom = new Date(rangeVisibleDates[0]);
-                currentTo = new Date(rangeVisibleDates[rangeVisibleDates.length - 1]);
-            }
-            if (to <= currentFrom) {
-                rangeVisibleDates = rangeVisibleDates.reverse()
-                isAppendable = false;
-                currentFrom = new Date(rangeVisibleDates[rangeVisibleDates.length - 1]);
-                currentTo = new Date(rangeVisibleDates[0]);
-            }
-            for (let date of rangeVisibleDates) {
-                let newDate = document.getElementById(date.formatToDMY());
-                if (newDate === null) {
-                    createToDoDay(date, isAppendable);
-                    createTask(date.formatToDMY());
-                } else {
-                    newDate.classList.remove('hidden');
-                }
-            }
-
+            generateToDoDays();
+            currentFrom = new Date(rangeNewVisibleDates[0]);
+            currentTo = new Date(rangeNewVisibleDates[rangeNewVisibleDates.length - 1]);
         });
     } else {
-        for (let date of rangeVisibleDates) {
-            let newDate = document.getElementById(date.formatToDMY());
-            newDate.classList.remove('hidden');
+        generateToDoDays();
+    }
+
+    function generateToDoDays() {
+        let appendableElem = null;
+        for (let date of rangeNewVisibleDates) {
+            let existedDate = document.getElementById(date.formatToDMY());
+            if (existedDate === null) {
+                if (appendableElem === null) {
+                    appendableElem = createToDoDay(date).divElement;
+                    document.getElementById(currentTo.formatToDMY());
+                    if (date > currentTo) {
+                        document.getElementById(currentTo.formatToDMY()).after(appendableElem);
+                    } else if (date < currentFrom) {
+                        document.getElementById(currentFrom.formatToDMY()).before(appendableElem);
+                    }
+                } else {
+                    const newElem = createToDoDay(date).divElement
+                    appendableElem.after(newElem);
+                    appendableElem = newElem;
+                }
+                createTask(date.formatToDMY());
+            } else {
+                appendableElem = existedDate;
+                existedDate.classList.remove('hidden');
+            }
         }
     }
 });
