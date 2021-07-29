@@ -66,9 +66,9 @@ function saveTask(date, inputElement, taskDiv) {
     }).then(response => response.text())
         .then(text => {
             let parse = JSON.parse(text);
-            if(!parse.hasOwnProperty("task")) {
+            if (!parse.hasOwnProperty("task")) {
                 taskDiv.id = parse;
-            }else{
+            } else {
                 inputElement.value = parse.task;
             }
 
@@ -181,15 +181,14 @@ function initDateRange(dateFrom, dateTo) {
 }
 
 
-
 function createDivForExistTask(date, item) {
     let tasksDiv = document.getElementById(date).getElementsByClassName('tasks')[0],
         taskDiv = new Div(item['id'], 'task'),
         taskValueDiv = new Div('', 'value_task'),
         task = new InputElement('text', '', item['taskName'], '', '', false, '');
     taskDiv.renderAppend(tasksDiv);
-    if(item['taskName'].length>MIN_LENGTH_FOR_TEXT_AREA){
-        isMatchedValueForTextArea(task.inputElement.value,taskDiv.divElement);
+    if (item['taskName'].length > MIN_LENGTH_FOR_TEXT_AREA) {
+        isMatchedValueForTextArea(task.inputElement.value, taskDiv.divElement);
     }
     taskValueDiv.renderAppend(taskDiv.divElement);
     task.renderAppend(taskValueDiv.divElement);
@@ -219,7 +218,7 @@ function createAlternationDiv(taskDiv) {
         let value_task = taskDiv.getElementsByClassName('value_task')[0],
             input = value_task.getElementsByTagName('input')[0],
             divText = taskDiv.getElementsByClassName("pop_up_task")[0];
-        if(divText !== undefined)
+        if (divText !== undefined)
             divText.classList.remove("pop_up_task");
 
         input.disabled = false;
@@ -279,7 +278,7 @@ function createDivForTask(date) {
     task.renderAppend(taskValueDiv.divElement);
     changeDoneStatusOnClick(taskValueDiv.divElement, task.inputElement, taskDiv.divElement);
     task.inputElement.onblur = () => {
-        isMatchedValueForTextArea(task.inputElement.value,taskDiv.divElement);
+        isMatchedValueForTextArea(task.inputElement.value, taskDiv.divElement);
         save();
     };
 
@@ -290,8 +289,9 @@ function createDivForTask(date) {
         if (task.inputElement.value.length !== 0) {
             task.inputElement.disabled = true;
             saveTask(date, task.inputElement, taskDiv.divElement);
-            task.inputElement.removeEventListener('keydown',saveWhenPressEnter);
-            task.inputElement.onblur = () => {};
+            task.inputElement.removeEventListener('keydown', saveWhenPressEnter);
+            task.inputElement.onblur = () => {
+            };
         }
     }
 
@@ -305,9 +305,9 @@ function createDivForTask(date) {
     }
 }
 
-function isMatchedValueForTextArea(value,taskDiv){
-    if(value.length>MIN_LENGTH_FOR_TEXT_AREA&&value.length<512){
-        let divAreaElem = new Div("","hidden","pop_up_task");
+function isMatchedValueForTextArea(value, taskDiv) {
+    if (value.length > MIN_LENGTH_FOR_TEXT_AREA && value.length < 512) {
+        let divAreaElem = new Div("", "hidden", "pop_up_task");
         divAreaElem.renderAppend(taskDiv);
         divAreaElem.divElement.innerText = value;
     }
@@ -325,6 +325,63 @@ function createTask(date) {
     }
 }
 
-getTasks(moveableFrom.toDateString(), moveableTo.toDateString()).then(()=>{
+let calendar = document.getElementById("date");
+
+calendar.addEventListener("input", (e) => {
+    const from = new Date(e.target.value),
+        to = new Date(e.target.value);
+    to.addDays(RANGE_VALUE / 2);
+    let rangeVisibleDates = dateInRange(from, to);
+    const allToDoDays = toDoListDiv.getElementsByTagName("div");
+    moveableFrom = new Date(currentFrom);
+    moveableTo = new Date(currentTo);
+    moveableFrom.subtractDays(RANGE_VALUE);
+    moveableTo.addDays(RANGE_VALUE);
+    let rangeMoveableDates = dateInRange(moveableFrom, moveableTo);
+    for (let toDoItem of allToDoDays) {
+        toDoItem.classList.add("hidden");
+    }
+    let tempCursorDateFrom = new Date(moveableFrom);
+    let tempCursorDateTo = new Date(moveableTo);
+    for (let date of rangeMoveableDates) {
+        if (allTasks.hasOwnProperty(tempCursorDateFrom.formatToDMY()))
+            tempCursorDateFrom.addDays(1);
+        if (allTasks.hasOwnProperty(tempCursorDateTo.formatToDMY()))
+            tempCursorDateTo.subtractDays(1);
+    }
+    if (tempCursorDateFrom.formatToDMY() !== tempCursorDateTo.formatToDMY()) {
+        getTasks(tempCursorDateFrom.toDateString(), tempCursorDateTo.toDateString()).then(() => {
+            let isAppendable = true;
+            if (from >= currentTo) {
+                isAppendable = true;
+                currentFrom = new Date(rangeVisibleDates[0]);
+                currentTo = new Date(rangeVisibleDates[rangeVisibleDates.length - 1]);
+            }
+            if (to <= currentFrom) {
+                rangeVisibleDates = rangeVisibleDates.reverse()
+                isAppendable = false;
+                currentFrom = new Date(rangeVisibleDates[rangeVisibleDates.length - 1]);
+                currentTo = new Date(rangeVisibleDates[0]);
+            }
+            for (let date of rangeVisibleDates) {
+                let newDate = document.getElementById(date.formatToDMY());
+                if (newDate === null) {
+                    createToDoDay(date, isAppendable);
+                    createTask(date.formatToDMY());
+                } else {
+                    newDate.classList.remove('hidden');
+                }
+            }
+
+        });
+    } else {
+        for (let date of rangeVisibleDates) {
+            let newDate = document.getElementById(date.formatToDMY());
+            newDate.classList.remove('hidden');
+        }
+    }
+});
+
+getTasks(moveableFrom.toDateString(), moveableTo.toDateString()).then(() => {
     initDateRange(currentFrom, currentTo);
 });

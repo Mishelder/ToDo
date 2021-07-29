@@ -14,6 +14,7 @@
         <input type="button" id="move_left" value="<-">
         <input type="button" id="move_right" value="->">
     </div>
+    <input type="date" id="date" name="calendar">
 </div>
 <div id="to_do_list" class="to_do_list">
 
