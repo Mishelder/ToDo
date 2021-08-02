@@ -7,7 +7,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.Optional;
-import static com.miaskor.util.ValidationVariable.*;
+
+import static com.miaskor.util.ValidationVariable.MAX_LENGTH_LOGIN;
+import static com.miaskor.util.ValidationVariable.MAX_LENGTH_PASSWORD;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginClientValidator implements Validator<LoginClientDto>{
@@ -20,8 +22,8 @@ public class LoginClientValidator implements Validator<LoginClientDto>{
         ValidationResult validationResult = new ValidationResult();
         String givenLogin = object.getLogin();
         String givenPassword = object.getPassword();
-        boolean isNotPass = checkFields(validationResult, givenLogin, givenPassword);
-        if(isNotPass)
+        checkFields(validationResult, givenLogin, givenPassword);
+        if(!validationResult.isValid())
             return validationResult;
         checkFieldsAtDB(validationResult, givenLogin, givenPassword);
         return validationResult;
@@ -36,16 +38,12 @@ public class LoginClientValidator implements Validator<LoginClientDto>{
         }
     }
 
-    private boolean checkFields(ValidationResult validationResult, String givenLogin, String givenPassword) {
-        boolean isNotPass = false;
+    private void checkFields(ValidationResult validationResult, String givenLogin, String givenPassword) {
         if(givenLogin.length()> MAX_LENGTH_LOGIN){
             validationResult.add(new ErrorMessage("login","login or password is invalid"));
-            isNotPass = true;
         }else if(givenPassword.length()> MAX_LENGTH_PASSWORD){
             validationResult.add(new ErrorMessage("password","password is invalid"));
-            isNotPass = true;
         }
-        return isNotPass;
     }
 
     public static LoginClientValidator getInstance(){
