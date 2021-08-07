@@ -36,17 +36,19 @@ public class Constants {
         public static final String FETCH = "/fetch";
         public static final String SAVE = "/save";
         public static final String DELETE = "/delete";
-        public static final String UPDATE_DONE = "/updateDone";
-        public static final String UPDATE = "/update";
+        public static final String UPDATE_TASK = "/updateTask";
+        public static final String UPDATE_CLIENT = "/updateClient";
+        public static final String FIND_CLIENT_BY_EMAIL = "/fndClient/email";
+        public static final String SEND_CODE = "/sendCode";
 
         public static Set<String> getAllFeasibleURL() {
             return Set.of(LOGIN, REGISTRATION, LOADER, SAVE_TASK,
                     LOGOUT, FLIP_RIGHT, FLIP_LEFT, TODO, FETCH,SAVE,
-                    DELETE,UPDATE_DONE,UPDATE);
+                    DELETE, UPDATE_TASK, UPDATE_CLIENT);
         }
 
         public static Set<String> getAllPublicURL() {
-            return Set.of(LOGIN, REGISTRATION, LOADER);
+            return Set.of(LOGIN, REGISTRATION, LOADER, FIND_CLIENT_BY_EMAIL, SEND_CODE);
         }
     }
 

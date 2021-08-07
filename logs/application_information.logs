@@ -5,48 +5,109 @@ Using JRE_HOME:        "C:\Program Files\Java\jdk-16.0.1"
 Using CLASSPATH:       "C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48\bin\bootstrap.jar;C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48\bin\tomcat-juli.jar"
 Using CATALINA_OPTS:   ""
 NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
-18-Jul-2021 01:08:44.594 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.48
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Jun 10 2021 09:22:01 UTC
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 9.0.48.0
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-16.0.1
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           16.0.1+9-24
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01\conf\logging.properties
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote=
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.port=1099
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.ssl=false
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.password.file=C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01\jmxremote.password
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.access.file=C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01\jmxremote.access
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.rmi.server.hostname=127.0.0.1
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48
-18-Jul-2021 01:08:44.599 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48\temp
-18-Jul-2021 01:08:44.615 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [1.2.30] using APR version [1.7.0].
-18-Jul-2021 01:08:44.615 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [true].
-18-Jul-2021 01:08:44.615 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
-18-Jul-2021 01:08:44.615 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 1.1.1k  25 Mar 2021]
-18-Jul-2021 01:08:45.134 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8081"]
-18-Jul-2021 01:08:45.170 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [828] milliseconds
-18-Jul-2021 01:08:45.234 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
-18-Jul-2021 01:08:45.234 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/9.0.48]
-18-Jul-2021 01:08:45.254 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8081"]
-18-Jul-2021 01:08:45.317 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [152] milliseconds
+07-Aug-2021 12:13:49.198 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.48
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Jun 10 2021 09:22:01 UTC
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 9.0.48.0
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-16.0.1
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           16.0.1+9-24
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01\conf\logging.properties
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote=
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.port=1099
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.ssl=false
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.password.file=C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01\jmxremote.password
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.access.file=C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01\jmxremote.access
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.rmi.server.hostname=127.0.0.1
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\Miaskor\AppData\Local\JetBrains\IntelliJIdea2021.1\tomcat\94cc7467-404b-41f2-9fde-28ea8c2aae01
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48
+07-Aug-2021 12:13:49.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48\temp
+07-Aug-2021 12:13:49.219 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [1.2.30] using APR version [1.7.0].
+07-Aug-2021 12:13:49.219 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [true].
+07-Aug-2021 12:13:49.219 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+07-Aug-2021 12:13:49.235 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 1.1.1k  25 Mar 2021]
+07-Aug-2021 12:13:49.688 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8081"]
+07-Aug-2021 12:13:49.719 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [923] milliseconds
+07-Aug-2021 12:13:49.782 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+07-Aug-2021 12:13:49.782 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/9.0.48]
+07-Aug-2021 12:13:49.812 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8081"]
+07-Aug-2021 12:13:49.874 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [151] milliseconds
 Connected to server
-18-Jul-2021 01:08:46.879 INFO [RMI TCP Connection(3)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-18-Jul-2021 01:08:55.258 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48\webapps\manager]
-18-Jul-2021 01:08:55.332 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48\webapps\manager] has finished in [74] ms
-2021-07-18 01:09:00 INFO  ClientDaoImpl:62 - Client has been created Client(id=28, login=rct.skorohodasd, email=mi3h1@mail.ruasd, password=asd)
+07-Aug-2021 12:13:53.291 INFO [RMI TCP Connection(3)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+07-Aug-2021 12:13:59.815 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48\webapps\manager]
+07-Aug-2021 12:13:59.881 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Program Files\apache-tomcat-9.0.48\apache-tomcat-9.0.48\webapps\manager] has finished in [66] ms
+07-Aug-2021 12:24:08.742 WARNING [RMI TCP Connection(6)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [ROOT] registered the JDBC driver [org.postgresql.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+07-Aug-2021 12:24:08.756 WARNING [RMI TCP Connection(6)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ROOT] appears to have started a thread named [hikariConnectionPool housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@16.0.1/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@16.0.1/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@16.0.1/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1661)
+ java.base@16.0.1/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@16.0.1/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1056)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1116)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+ java.base@16.0.1/java.lang.Thread.run(Thread.java:831)
+07-Aug-2021 12:24:12.417 INFO [RMI TCP Connection(6)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+"mi3h1@mail.ru"
+mi3h1@mail.ru
+07-Aug-2021 12:43:52.862 WARNING [RMI TCP Connection(9)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [ROOT] registered the JDBC driver [org.postgresql.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+07-Aug-2021 12:43:52.864 WARNING [RMI TCP Connection(9)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ROOT] appears to have started a thread named [hikariConnectionPool housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@16.0.1/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@16.0.1/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@16.0.1/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1661)
+ java.base@16.0.1/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@16.0.1/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1056)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1116)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+ java.base@16.0.1/java.lang.Thread.run(Thread.java:831)
+07-Aug-2021 12:43:55.846 INFO [RMI TCP Connection(9)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+07-Aug-2021 12:46:32.349 WARNING [RMI TCP Connection(12)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [ROOT] registered the JDBC driver [org.postgresql.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+07-Aug-2021 12:46:32.350 WARNING [RMI TCP Connection(12)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ROOT] appears to have started a thread named [hikariConnectionPool housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@16.0.1/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@16.0.1/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@16.0.1/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1661)
+ java.base@16.0.1/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@16.0.1/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1056)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1116)
+ java.base@16.0.1/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+ java.base@16.0.1/java.lang.Thread.run(Thread.java:831)
+07-Aug-2021 12:46:35.168 INFO [RMI TCP Connection(12)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+a
+mi3h1@mail.ru
+asd
+a123
+a
+123
+123asd
+123asd@mail.ru
+mi3h1@mail.ru
+mi3h1@mail.ru
+mi3h12MAIL.A
+mi3h1@mail.ru

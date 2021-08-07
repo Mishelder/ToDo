@@ -71,8 +71,48 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.31</version>
-            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>core-module</artifactId>
+            <version>6.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>authenticated-socks-module</artifactId>
+            <version>6.6.1</version>
+        </dependency><!-- https://mvnrepository.com/artifact/org.simplejavamail/dkim-module -->
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>dkim-module</artifactId>
+            <version>6.6.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.simplejavamail/smime-module -->
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>smime-module</artifactId>
+            <version>6.6.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.simplejavamail/batch-module -->
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>batch-module</artifactId>
+            <version>6.6.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.simplejavamail/outlook-module -->
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>outlook-module</artifactId>
+            <version>6.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>simple-java-mail</artifactId>
+            <version>6.6.1</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

@@ -61,7 +61,54 @@ h2 {
     color: #0d0d0d;
 }
 
+.modal__background{
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index: 10;
+}
 
+.modal__window{
+    background-color: #ffffff;
+    width: 550px;
+    height: 400px;
+    position: absolute;
+    text-align:center;
+    display: flex;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px 10px 10px 10px;
+    z-index: 15;
+}
+
+.close__modal{
+    position: absolute;
+    top: 0;
+    right: 2%;
+    font-size: 60px;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.security__number > div{
+    display:inline-block;
+    width:80px;
+    padding-top:20%;
+    padding-bottom:10%
+}
+
+.security__number > div > input{
+    padding:0;
+    height:50px;
+    width:40px;
+}
 
 /* TABS */
 
@@ -271,6 +318,10 @@ input[type=password]::placeholder {
 
 * {
     box-sizing: border-box;
+}
+
+div.hidden{
+    display: none;
 }
 
 p.hidden{

@@ -7,6 +7,21 @@
 
 </head>
 <body>
+
+    <div class="hidden modal__window">
+        <button class="close__modal">&times;</button>
+        <div class="security__number hidden">
+            <div><input type="text" class="checked_security" autocomplete="off" name="number1" maxlength="1"/></div>
+            <div><input type="text" class="checked_security" autocomplete="off" name="number2" maxlength="1"/></div>
+            <div><input type="text" class="checked_security" autocomplete="off" name="number3" maxlength="1"/></div>
+            <div><input type="text" class="checked_security" autocomplete="off" name="number4" maxlength="1"/></div>
+        </div>
+        <input type="submit" name="back_to_email" class="back_to_email hidden" value="Change Email"/>
+        <input type="email" name="email" class="forgotten_email" placeholder="Please input email" autocomplete="off" required/>
+        <p id="check_email_to_change_password" class="red hidden"></p>
+        <input type="submit" name="accept_email" class="accept_email" value="Send code">
+    </div>
+    <div class="hidden modal__background"></div>
 <%@ include file="header.jsp" %>
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -15,7 +30,7 @@
         <form id ="form" action="${pageContext.request.contextPath}/login" method="post">
         </form>
         <div id="formFooter">
-            <a class="underlineHover fadeIn fourth" href="#">Forgot Password?</a>
+            <a class="underlineHover fadeIn fourth" id="forgot_password" href="#">Forgot Password?</a>
         </div>
     </div>
 </div>
